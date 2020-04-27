@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load widget_tweaks %}
+{% block title %}Олимпиада{% endblock title %}
+{% block content %}
+   <section class="tests-wrapper" id="tests-wrapper anchor">
+
+{% if question.image %}
+<div class="test-image">
+    <img src="{{ question.image.url }}" alt="">
+</div>
+{% endif %}
+   
+<div class="test-counter">
+    <span>{{ question.question }}</span>
+    </div>
+    <div class="tests-button-group">
+        <a href="{%  url 'tests' %}" class="test-button" style="text-decoration:none; font-size:16px;color:#fff;border:none;font-family:sans-serif">Вернуться к вопросам</a>
+    </div>
+    {% if not completed %}
+    <div class="id29Question">
+        <div class="id29Question-wrapper">
+            <form action="{% url 'answer29' %}" method="POST" style="width:100%">
+            <div style="display:flex;flex-flow:row wrap; justify-content:space-between;align-items:center">
+            {% csrf_token %}
+            <div class="quesBoxImg">
+
+                {% render_field form.q291 id="test-answer-id" class="test-detail-answer" style="background:transparent; border:solid 2px black;padding:22px 16px; border-radius:3px;outline:none;width:214px;" placeholder='Впишите Ваш ответ: ' %}
+            </div>
+		<span style="font-size:40px;">+</span>
+            <div class="quesBoxImg">
+
+                {% render_field form.q292 id="test-answer-id" class="test-detail-answer" style="background:transparent; border:solid 2px black;padding:22px 16px; border-radius:3px;outline:none;width:214px;" placeholder='Впишите Ваш ответ: ' %}
+            </div>
+		<span style="font-size:40px;">=</span>
+<div class="quesBoxImg">
+
+                {% render_field form.q293 id="test-answer-id" class="test-detail-answer" style="background:transparent; border:solid 2px black;padding:22px 16px; border-radius:3px;outline:none;width:214px;" placeholder='Впишите Ваш ответ: ' %}
+            </div>
+            </div>
+            <button type="submit" class="test-button test-prev" style="margin-bottom: 10vh">Ответить</button>
+            </form>
+        </div>
+    </div>
+{% else %}
+    {{ completed }}
+{% endif %}
+</section>
+{% endblock content %}

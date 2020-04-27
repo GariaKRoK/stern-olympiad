@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Окончание олимпиады{% endblock title %}
+{% block content %}
+    <section class="olymp-completed">
+        <div class="olymp-completed-textBox">
+            <h2>Вы сдали олимпиаду!<br> Ожидайте результата.</h2>
+        </div>
+        <div class="olymp-completed-image">
+            <img src="{% static 'images/olymp/penguin-2.png' %}" alt="">
+        </div>
+    </section>
+{% endblock content %}

@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load widget_tweaks %}
+{% block title %}Олимпиада{% endblock title %}
+{% block content %}
+   <section class="tests-wrapper" id="tests-wrapper anchor">
+
+{% if question.image %}
+<div class="test-image">
+    <img src="{{ question.image.url }}" alt="">
+</div>
+{% endif %}
+ 
+<div class="test-counter">
+    <span>{{ question.question }}</span>
+    </div>
+    <div class="tests-button-group">
+        <a href="{%  url 'tests' %}" class="test-button" style="text-decoration:none; font-size:16px;color:#fff; border:none;font-family:sans-serif">Вернуться к вопросам</a>
+    </div>
+    {% if not completed %}  
+    <div class="id32Question">
+        <div class="id32Question-wrapper">
+            <form action="{% url 'answer45' %}" method="POST">
+            {% csrf_token %}
+            <div style="display:flex;flex-flow:row wrap;">
+            <div class="quesBoxImg">
+                {% render_field form.q451 id="test-answer-id" class="test-detail-answer" style="background:transparent; border:solid 2px black;padding:22px 16px; border-radius:3px;outline:none;width:214px;" placeholder='Впишите Ваш ответ: ' %}
+            </div><div class="quesBoxImg">
+                {% render_field form.q452 id="test-answer-id" class="test-detail-answer" style="background:transparent; border:solid 2px black;padding:22px 16px; border-radius:3px;outline:none;width:214px;" placeholder='Впишите Ваш ответ: ' %}
+            </div><div class="quesBoxImg">
+                {% render_field form.q453 id="test-answer-id" class="test-detail-answer" style="background:transparent; border:solid 2px black;padding:22px 16px; border-radius:3px;outline:none;width:214px;" placeholder='Впишите Ваш ответ: ' %}
+            </div><div class="quesBoxImg">
+                {% render_field form.q454 id="test-answer-id" class="test-detail-answer" style="background:transparent; border:solid 2px black;padding:22px 16px; border-radius:3px;outline:none;width:214px;" placeholder='Впишите Ваш ответ: ' %}
+            </div><div class="quesBoxImg">
+                {% render_field form.q455 id="test-answer-id" class="test-detail-answer" style="background:transparent; border:solid 2px black;padding:22px 16px; border-radius:3px;outline:none;width:214px;" placeholder='Впишите Ваш ответ: ' %}
+            </div><div class="quesBoxImg">
+                {% render_field form.q456 id="test-answer-id" class="test-detail-answer" style="background:transparent; border:solid 2px black;padding:22px 16px; border-radius:3px;outline:none;width:214px;" placeholder='Впишите Ваш ответ: ' %}
+            </div>
+            </div>
+            
+            <button type="submit" class="test-button test-prev">Ответить</button>
+        </form>
+        </div>
+    </div>
+{% else %}
+    {{ completed }}
+{% endif %}
+</section>
+{% endblock content %}

@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Невыполненная оплата{% endblock title %}
+{% block content %}
+<section class="reg-main-content paymentBad">
+    <div class="reg-button-box">
+        <button class="reg-button" id="payment-button-id">Оплата не прошла! Повторить попытку?</button>
+    </div>
+    <div class="penguin-image-box">
+        <img src="{% static 'images/reg-img/penguin.png' %}" alt="Penguin say hi to You" class="penguin-image">
+    </div>
+</section>
+{% endblock content %}

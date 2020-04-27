@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Все вопросы{% endblock title %}
+{% block content %}
+<div class="central-container">
+<section class="tests-wrapper" id="tests-wrapper-anchor">
+<div class="timer-box" style="width:200px;margin-bottom: 24px">
+    <script src="{{ link_timer }}"></script>    
+</div>
+<p class="tetx">Для перехода к заданию нажмите на него</p>
+{% for qs in question %}
+{% if qs.id == 68 %}
+    <a href="{% url 'answer68' %}">
+{% elif qs.id == 48 %}
+    <a href="{% url 'answer48' %}">
+{% elif qs.id == 38 %}
+    <a href="{% url 'answer38' %}">
+{% elif qs.id == 45 %}
+    <a href="{% url 'answer45' %}">
+{% elif qs.id == 23 %}
+    <a href="{% url 'answer23' %}">
+{% elif qs.id == 32 %}
+    <a href="{% url 'answer32' %}">
+{% elif qs.id == 29 %}
+    <a href="{% url 'answer29' %}">
+{% else %}
+    <a href="{% url 'answer' id=qs.id %}">
+{% endif %}
+{{ qs.question }}
+</a>
+
+{% endfor %}
+<a class="test-button test-end" href="{% url 'completed' %}">Закончить олимпиаду</a>
+</section>
+</div>
+{% endblock content %}

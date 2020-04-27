@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Оплатить{% endblock %}
+{% block content %}
+{% if not request.user.student.paid %}
+<section class="reg-main-content">
+    <div class="reg-button-box">
+    <form class="form-inline" method="POST" action="">
+        {% csrf_token %}
+        <input class="reg-button" id="payment-button-id" type="submit" value="Оплатить">
+    </form>
+    </div>
+    <div class="penguin-image-box">
+        <img src="{% static 'images/reg-img/penguin.png' %}" alt="Penguin say hi to You" class="penguin-image">
+    </div>
+</section>
+{% else %}
+<section class="reg-main-content">
+    <div class="reg-button-box">
+    <form class="form-inline" method="POST" action="">
+        {% csrf_token %}
+        <input class="reg-button" id="payment-button-id" type="submit" value="Перейти к олимпиаде">
+    </form>
+    </div>
+    <div class="penguin-image-box">
+        <img src="{% static 'images/reg-img/penguin.png' %}" alt="Penguin say hi to You" class="penguin-image">
+    </div>
+</section>
+{% endif %}
+{% endblock content %}

@@ -1,0 +1,33 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="shortcut icon" href="{% static 'images/favikon.png' %}" type="image/png" width='16' height='16'>
+		<title>{% block title %}{% endblock %}</title>
+		<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
+		<link href="https://fonts.googleapis.com/css?family=Lato&display=swap" rel="stylesheet">
+		<link rel="stylesheet" type="text/css" href="{% static 'style/fonts.css' %}">
+		<link rel="stylesheet" type="text/css" href="{% static 'style/main.css' %}">
+		<link rel="stylesheet" type="text/css" href="{% static 'style/media.css' %}">
+		<link rel="stylesheet" type="text/css" href="{% static 'style/modal.css' %}">
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+	
+		<script src="https://kit.fontawesome.com/e1d2fbc59f.js" crossorigin="anonymous"></script>
+	</head>
+	<body>
+		{% include 'header.html' %}
+			{% block content %}
+			{% endblock %}
+		{% include 'footer.html' %}
+		<script src="{% static 'js/locale.js' %}"></script>
+		<script src="{% static 'js/main.js' %}"></script>
+		<script src="{% static 'js/payment.js' %}"></script>
+		<script src="{% static 'js/olymp.js' %}"></script>
+		<script src="{% static 'js/tests.js' %}"></script>
+		<script src="{% static 'js/payment-bad.js' %}"></script>	
+	    <script src="{% static 'js/id68.js' %}"></script>
+	</body>
+</html>
