@@ -2,42 +2,36 @@
 {% load static %}
 {% block title %}Описание сайта{% endblock title %}
 {% block content %}
-
 <section class="olymp-completed">
-        <div class="olymp-completed-textBox" style="font-size:1.6em;">
-		
+        <div class="olymp-completed-textBox">
         <h1> Об Олимпиаде </h1>
         <p>Математическая профильная олимпиада «Штерн» – мероприятие,</p>
         <p>направленное на выявление и поддержку учащихся школ,</p>
         <p>интересующихся математикой.</p>
         <br>
-       
-        
-      
-         <p>Участниками Олимпиады могут стать ученики 1-8 классов школ,</p>
+       <p>Участниками Олимпиады могут стать ученики 1-8 классов школ,</p>
         <p>лицеев и гимназий со всей страны, а также иностранные</p>
         <p>граждане и лица без гражданства.</p><br>
           <h1> УЧАСТНИКИ, ПРИЗЕРЫ И ПОБЕДИТЕЛИ ПОЛУЧАТ: </h1>
           <br>
           <p class="p-w-arrow"> Бесплатные занятия в Школе Точных Наук ШТЕРН</p>
          <p class="p-w-arrow"> Сертификаты и грамоты</p>
-    
+
          <p class="p-w-arrow"> Поступление в некоторые математические кружки в г. Москва</p>
 
          <p class="p-w-arrow"> Бесплатный вебинар с разбором заданий</p>
 
          <p class="p-w-arrow"> Опыт решения прикладных задач</p>
          <br>
-        
         <div class="macho">
-        <p><a href="{% url 'confidentiality' %}" style="text-decoration:none;"><i class="fas fa-angle-double-right"></i> Политика конфиденциальности</a></p>
-        <p><a href="{% url 'agreement' %}" style="text-decoration:none;"><i class="fas fa-angle-double-right"></i> Пользовательское соглашение</a></p>
+        <p><a href="{% url 'confidentiality' %}"><i class="fas fa-angle-double-right"></i> Политика конфиденциальности</a></p>
+        <p><a href="{% url 'agreement' %}"><i class="fas fa-angle-double-right"></i> Пользовательское соглашение</a></p>
+<!--     another info pages links       -->
         </div>
-
-
         </div>
         <div class="olymp-completed-image">
             <img src="{% static 'images/olymp/penguin-3.png' %}" alt="">
         </div>
 </section>
+<!--olymp description page-->
 {% endblock content %}

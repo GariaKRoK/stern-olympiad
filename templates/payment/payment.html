@@ -3,6 +3,7 @@
 {% block title %}Оплатить{% endblock %}
 {% block content %}
 {% if not request.user.student.paid %}
+<!--this section opened when olymp not paid-->
 <section class="reg-main-content">
     <div class="reg-button-box">
     <form class="form-inline" method="POST" action="">
@@ -15,6 +16,7 @@
     </div>
 </section>
 {% else %}
+<!--this section opened when olymp is paid -->
 <section class="reg-main-content">
     <div class="reg-button-box">
     <form class="form-inline" method="POST" action="">
@@ -26,5 +28,6 @@
         <img src="{% static 'images/reg-img/penguin.png' %}" alt="Penguin say hi to You" class="penguin-image">
     </div>
 </section>
+<!--payment page-->
 {% endif %}
 {% endblock content %}

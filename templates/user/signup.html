@@ -57,10 +57,10 @@
             {% render_field student_form.name_school class="modalFormInput" placeholder="Название Вашей школы" %}
             {% render_field user_form.password1 class="modalFormInput" placeholder="Пароль"%}
             {% render_field user_form.password2 class="modalFormInput" placeholder="Подтвердите пароль"%}
-            <p class="par_pass" style="color:red;font-weight:700;">- Пароль не может быть слишком похож на другую вашу личную информацию<br> - Пароль должен содержать не менее 8 символов<br> - Пароль не может быть широко используемым<br> - Пароль не может состоять только из букв/цифр<br></p>
+            <p class="par_pass" >- Пароль не может быть слишком похож на другую вашу личную информацию<br> - Пароль должен содержать не менее 8 символов<br> - Пароль не может быть широко используемым<br> - Пароль не может состоять только из букв/цифр<br></p>
             {% if messages %}
                 {% for message in messages%}
-                    <p class="par_pass" style="font-size:14px; margin-bottom:5px; margin-left:12px;">{{ message }}</p>
+                    <p class="par_pass-alert" >{{ message }}</p>
                     {% endfor %}
             {% endif %}            <div class="modalWindowBottom">
                 <button type="submit" class="modalFormButtonSubmit" value="">Подтвердить регистрацию и оплатить </button>

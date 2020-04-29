@@ -1,3 +1,4 @@
+
 {% load static %}
 <header class="reg-header-style" id="reg-header-anchor">
     <nav class="nav-line">
@@ -5,11 +6,13 @@
         <div class="nav-logo">
             <a href="{% url 'payment' %}"><img src="{% static 'images/reg-img/logotype.png' %}" alt=""></a>
         </div>
+<!--   header logotype     -->
         <div class="nav-button"><a href="#" class="nav-button-link" id="nav-student-name">{{ request.user.username }}</a></div>
         {% else %}
         <div class="nav-logo">
             <a href="{% url 'signin' %}"><img src="{% static 'images/reg-img/logotype.png' %}" alt=""></a>
         </div>
+<!--        -->
         <div class="nav-button"><a href="{% url 'signup' %}" class="nav-button-link" id="nav-button-link-id" style="font-size:0;color:white">Зарегистрироваться</a></div>
         {% endif %}
     </nav>
