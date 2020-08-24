@@ -5,6 +5,7 @@ from django.conf import settings
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.models import auth
 from django.contrib import messages
+from django.contrib.auth.models import User
 from django.http import HttpResponse, Http404, JsonResponse
 from .forms import *
 from .models import *
@@ -50,44 +51,51 @@ def signup(request):
         user_form = SignUpUserForm(request.POST)
         student_form = SignUpStudentForm(request.POST)
         if user_form.is_valid() and student_form.is_valid():
-            user = user_form.save(commit=False) 
-            email = user_form.cleaned_data.get('email')
-            user.email = email
-            username = user_form.cleaned_data.get('username')
-            user.username = username
-            user.last_name = user_form.cleaned_data.get('last_name')
-            user.first_name = user_form.cleaned_data.get('first_name')
-            user.password = user_form.cleaned_data.get('password')
-            user_form.save()
-            login(request, user, backend='django.contrib.auth.backends.ModelBackend')            
-            student = student_form.save(commit=False) 
-            student.user = User.objects.get(username=username)
-            student.telephone_number = student_form.cleaned_data.get('telephone_number')
-            student.class_number = student_form.cleaned_data.get('class_number')
-            student.name_school = student_form.cleaned_data.get('name_school')
-            
-            with open('send.txt', 'r+', encoding='UTF-8') as f:
-                file_content = f.read() # read everything in the file
                 
-            send_mail(
-                'Регистрация на онлайн олимпиаду',
-                file_content,
-                'shtern.olymp@gmail.com',
-                [email, ],
-                fail_silently=False
-                )
+            if User.objects.filter(email=user_form.cleaned_data.get('email')).exists():
+                messages.info(request, 'Электронная почта уже занята')
+                user_form = SignUpUserForm()
+                student_form = SignUpStudentForm()
+            else:
 
-            student_form.save()
-            return redirect('payment')
+                user = user_form.save(commit=False)
+                email = user_form.cleaned_data.get('email')
+
+                user_form.save()
+
+                login(request, user, backend='django.contrib.auth.backends.ModelBackend')            
+                student = student_form.save(commit=False) 
+                student.user = User.objects.get(username=user_form.cleaned_data.get('username'))
+                student.telephone_number = student_form.cleaned_data.get('telephone_number')
+                student.class_number = student_form.cleaned_data.get('class_number')
+                student.name_school = student_form.cleaned_data.get('name_school')
+                student_form.save()
+                """with open('send.txt', 'r+', encoding='UTF-8') as f:
+                    file_content = f.read() # read everything in the file
+                send_mail(
+                    'Регистрация на онлайн олимпиаду',
+                    file_content,
+                    settings.EMAIL_HOST_USER,
+                    [email, ],
+                    fail_silently=False
+                    )
+                """ 
+                return redirect('payment')
                 
         else:
-            messages.info(request, 'Пароль не может быть слишком похож на другую вашу личную информацию ••• Пароль должен содержать не менее 8 символов ••• Пароль не может быть широко используемым ••• Пароль не может состоять только из букв/цифр')
-            user_form = SignUpUserForm()
-            student_form = SignUpStudentForm()
+            if User.objects.filter(username=request.POST.get('username')).exists():
+                messages.info(request, 'Логин уже занят')
+                user_form = SignUpUserForm()
+                student_form = SignUpStudentForm()
+            else:
+                messages.info(request, 'Пароли не совпадают или пароль меньше 8 символов')
+                user_form = SignUpUserForm()
+                student_form = SignUpStudentForm()
             
     else:
         user_form = SignUpUserForm()
         student_form = SignUpStudentForm()
+
     return render(request, 'user/signup.html', locals())
 
 
