@@ -104,12 +104,12 @@ PRICE = str(300)
 DESC = 'Оплата за олимпиаду'
 
 #Email settings
-"""EMAIL_USE_TLS = True
+EMAIL_USE_TLS = True
 EMAIL_PORT = 587
 EMAIL_HOST =  'smtp.gmail.com'
 EMAIL_HOST_USER = 'shtern.olymp@gmail.com'
 EMAIL_HOST_PASSWORD = 'shternolymP1'
-"""
+
 DICT_LINK_TIMER = {'1':'https://megatimer.ru/get/6367f9dffd3a5ed7dd51989ef0f17f11.js',
                         '2': 'https://megatimer.ru/get/6367f9dffd3a5ed7dd51989ef0f17f11.js',
                         '3': 'https://megatimer.ru/get/6367f9dffd3a5ed7dd51989ef0f17f11.js',

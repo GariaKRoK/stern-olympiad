@@ -70,16 +70,24 @@ def signup(request):
                 student.class_number = student_form.cleaned_data.get('class_number')
                 student.name_school = student_form.cleaned_data.get('name_school')
                 student_form.save()
-                """with open('send.txt', 'r+', encoding='UTF-8') as f:
-                    file_content = f.read() # read everything in the file
-                send_mail(
-                    'Регистрация на онлайн олимпиаду',
-                    file_content,
-                    settings.EMAIL_HOST_USER,
-                    [email, ],
-                    fail_silently=False
-                    )
-                """ 
+
+                with open('send.txt', 'r+', encoding='UTF-8') as f:
+                    old_file_content = f.read() # read everything in the file
+                    
+                    #insert data into txt file
+                    new_file_content = old_file_content.format(
+                                                str(user_form.cleaned_data.get('username')),
+                                                str(user_form.cleaned_data.get('password1')))
+                    
+                    #send mail with password and username to new user
+                    send_mail(
+                        'Регистрация на онлайн олимпиаду',
+                        str(new_file_content),
+                        settings.EMAIL_HOST_USER,
+                        [email, ],
+                        fail_silently=False
+                        )
+                
                 return redirect('payment')
                 
         else:
