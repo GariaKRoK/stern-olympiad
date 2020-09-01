@@ -30,6 +30,7 @@ INSTALLED_APPS = [
     'sore',
     'widget_tweaks',
     'whitenoise',
+    'tinymce'
 ]
 
 MIDDLEWARE = [
