@@ -3,7 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.core.mail import send_mail
 from django.conf import settings
 from django.contrib.auth import login, authenticate
-from django.contrib.auth.models import auth
+from django.contrib.auth.models import auth, User
 from django.contrib import messages
 from django.http import HttpResponse, Http404, JsonResponse
 from .forms import *
@@ -50,44 +50,59 @@ def signup(request):
         user_form = SignUpUserForm(request.POST)
         student_form = SignUpStudentForm(request.POST)
         if user_form.is_valid() and student_form.is_valid():
-            user = user_form.save(commit=False) 
-            email = user_form.cleaned_data.get('email')
-            user.email = email
-            username = user_form.cleaned_data.get('username')
-            user.username = username
-            user.last_name = user_form.cleaned_data.get('last_name')
-            user.first_name = user_form.cleaned_data.get('first_name')
-            user.password = user_form.cleaned_data.get('password')
-            user_form.save()
-            login(request, user, backend='django.contrib.auth.backends.ModelBackend')            
-            student = student_form.save(commit=False) 
-            student.user = User.objects.get(username=username)
-            student.telephone_number = student_form.cleaned_data.get('telephone_number')
-            student.class_number = student_form.cleaned_data.get('class_number')
-            student.name_school = student_form.cleaned_data.get('name_school')
-            
-            with open('send.txt', 'r+', encoding='UTF-8') as f:
-                file_content = f.read() # read everything in the file
                 
-            send_mail(
-                'Регистрация на онлайн олимпиаду',
-                file_content,
-                'shtern.olymp@gmail.com',
-                [email, ],
-                fail_silently=False
-                )
+            if User.objects.filter(email=user_form.cleaned_data.get('email')).exists():
+                messages.info(request, 'Электронная почта уже занята')
+                user_form = SignUpUserForm()
+                student_form = SignUpStudentForm()
+            else:
 
-            student_form.save()
-            return redirect('payment')
+                user = user_form.save(commit=False)
+                email = user_form.cleaned_data.get('email')
+
+                user_form.save()
+
+                login(request, user, backend='django.contrib.auth.backends.ModelBackend')            
+                student = student_form.save(commit=False) 
+                student.user = User.objects.get(username=user_form.cleaned_data.get('username'))
+                student.telephone_number = student_form.cleaned_data.get('telephone_number')
+                student.class_number = student_form.cleaned_data.get('class_number')
+                student.name_school = student_form.cleaned_data.get('name_school')
+                student_form.save()
+
+                with open('send.txt', 'r+', encoding='UTF-8') as f:
+                    old_file_content = f.read() # read everything in the file
+                    
+                    #insert data into txt file
+                    new_file_content = old_file_content.format(
+                                                str(user_form.cleaned_data.get('username')),
+                                                str(user_form.cleaned_data.get('password1')))
+                    
+                    #send mail with password and username to new user
+                    send_mail(
+                        'Регистрация на онлайн олимпиаду',
+                        str(new_file_content),
+                        settings.EMAIL_HOST_USER,
+                        [email, ],
+                        fail_silently=False
+                        )
+                
+                return redirect('payment')
                 
         else:
-            messages.info(request, 'Пароль не может быть слишком похож на другую вашу личную информацию ••• Пароль должен содержать не менее 8 символов ••• Пароль не может быть широко используемым ••• Пароль не может состоять только из букв/цифр')
-            user_form = SignUpUserForm()
-            student_form = SignUpStudentForm()
+            if User.objects.filter(username=request.POST.get('username')).exists():
+                messages.info(request, 'Логин уже занят')
+                user_form = SignUpUserForm()
+                student_form = SignUpStudentForm()
+            else:
+                messages.info(request, 'Пароли не совпадают или пароль меньше 8 символов')
+                user_form = SignUpUserForm()
+                student_form = SignUpStudentForm()
             
     else:
         user_form = SignUpUserForm()
         student_form = SignUpStudentForm()
+
     return render(request, 'user/signup.html', locals())
 
 
@@ -171,191 +186,6 @@ def create_answer(student, txt, qs):
                                     question=qs)
     new.save()
 
-@login_required(login_url='/signin/')
-def answer68(request):
-    if request.user.student.paid == True:
-        question = Question.objects.get(id=68)
-        answered_question = UserAnswer.objects.filter(question=question, student=request.user.student).exists()
-
-        if not answered_question:
-            if request.method == 'POST':
-                form = UserAnswerForm68(request.POST)
-                if form.is_valid():
-                    q1 = form.cleaned_data['q681']
-                    q2 = form.cleaned_data['q682']
-                    q3 = form.cleaned_data['q683']
-                    q4 = form.cleaned_data['q684']
-                    txt = q1 + q2 + q3 + q4
-                    create_answer(request.user.student, txt, question)
-                    plus_balls(question.id, question, request.user.student.user, txt)
-                    return redirect('tests')
-
-            else:
-                form = UserAnswerForm68()
-        else:
-            completed = 'Вы уже ответили на этот вопрос'
-    else:
-        return redirect('tests')
-    return render(request, 'core/answer68.html', locals())
-    
-@login_required(login_url='/signin/')
-def answer48(request):
-    if request.user.student.paid == True:
-        question = Question.objects.get(id=48)
-        answered_question = UserAnswer.objects.filter(question=question, student=request.user.student).exists()
-
-        if not answered_question:
-            if request.method == 'POST':
-                form = UserAnswerForm48(request.POST)
-                if form.is_valid():
-                    q1 = form.cleaned_data['q481']
-                    q2 = form.cleaned_data['q482']
-                    txt = q1 + q2 
-                    create_answer(request.user.student, txt, question)
-                    plus_balls(question.id, question, request.user.student.user, txt)
-                    return redirect('tests')
-
-            else:
-                form = UserAnswerForm48()
-        else:
-            completed = 'Вы уже ответили на этот вопрос'
-    else:
-        return redirect('tests')
-    return render(request, 'core/answer48.html', locals())
-    
-@login_required(login_url='/signin/')
-def answer45(request):
-    if request.user.student.paid == True:
-        question = Question.objects.get(id=45)
-        answered_question = UserAnswer.objects.filter(question=question, student=request.user.student).exists()
-
-        if not answered_question:
-            if request.method == 'POST':
-                form = UserAnswerForm45(request.POST)
-                if form.is_valid():
-                    q1 = form.cleaned_data['q451']
-                    q2 = form.cleaned_data['q452']
-                    q3 = form.cleaned_data['q453']
-                    q5 = form.cleaned_data['q455']
-                    q4 = form.cleaned_data['q454']
-                    q6 = form.cleaned_data['q456']
-                    txt = q1 + q2 + q3 + q4 + q5 + q6
-                    create_answer(request.user.student, txt, question)
-                    plus = Student.objects.get(user=request.user)
-                    plus.count += 1
-                    plus.save()
-                    return redirect('tests')
-            else:
-                form = UserAnswerForm45()
-        else:
-            completed = 'Вы уже ответили на этот вопрос'
-    else:
-        return redirect('tests')
-    return render(request, 'core/answer45.html', locals())
-    
-@login_required(login_url='/signin/')
-def answer32(request):
-    if request.user.student.paid == True:
-        question = Question.objects.get(id=32)
-        answered_question = UserAnswer.objects.filter(question=question, student=request.user.student).exists()
-
-        if not answered_question:
-            if request.method == 'POST':
-                form = UserAnswerForm32(request.POST)
-                if form.is_valid():
-                    q1 = form.cleaned_data['q321']
-                    q2 = form.cleaned_data['q322']
-                    txt = q1 + q2
-                    create_answer(request.user.student, txt, question)
-                    plus_balls(question.id, question, request.user.student.user, txt)
-                    return redirect('tests')
-
-            else:
-                form = UserAnswerForm32()
-        else:
-            completed = 'Вы уже ответили на этот вопрос'
-    else:
-        return redirect('tests')
-    return render(request, 'core/answer32.html', locals())
-
-@login_required(login_url='/signin/')
-def answer23(request):
-    if request.user.student.paid == True:
-        question = Question.objects.get(id=23)
-        answered_question = UserAnswer.objects.filter(question=question, student=request.user.student).exists()
-
-        if not answered_question:
-            if request.method == 'POST':
-                form = UserAnswerForm23(request.POST)
-                if form.is_valid():
-                    q1 = form.cleaned_data['q231']
-                    q2 = form.cleaned_data['q232']
-                    q3 = form.cleaned_data['q233']
-                    q4 = form.cleaned_data['q234']
-                    q5 = form.cleaned_data['q235']
-                    txt = q1 + q2 + q3 + q4 + q5
-                    create_answer(request.user.student, txt, question)
-                    plus_balls(question.id, question, request.user.student.user, txt)
-                    return redirect('tests')
-
-            else:
-                form = UserAnswerForm23()
-        else:
-            completed = 'Вы уже ответили на этот вопрос'
-    else:
-        return redirect('tests')
-    return render(request, 'core/answer23.html', locals())
-
-@login_required(login_url='/signin/')
-def answer38(request):
-    if request.user.student.paid == True:
-        question = Question.objects.get(id=38)
-        answered_question = UserAnswer.objects.filter(question=question, student=request.user.student).exists()
-
-        if not answered_question:
-            if request.method == 'POST':
-                form = UserAnswerForm38(request.POST)
-                if form.is_valid():
-                    q1 = form.cleaned_data['q381']
-                    q2 = form.cleaned_data['q382']
-                    q3 = form.cleaned_data['q383']
-                    txt = q1 + q2 + q3
-                    create_answer(request.user.student, txt, question)
-                    plus_balls(question.id, question, request.user.student.user, txt)
-                    return redirect('tests')
-            else:
-                form = UserAnswerForm38()
-        else:
-            completed = 'Вы уже ответили на этот вопрос'
-    else:
-        return redirect('tests')
-    return render(request, 'core/answer38.html', locals())
-    
-@login_required(login_url='/signin/')
-def answer29(request):
-    if request.user.student.paid == True:
-        question = Question.objects.get(id=29)
-        answered_question = UserAnswer.objects.filter(question=question, student=request.user.student).exists()
-
-        if not answered_question:
-            if request.method == 'POST':
-                form = UserAnswerForm29(request.POST)
-                if form.is_valid():
-                    q1 = form.cleaned_data['q291']
-                    q2 = form.cleaned_data['q292']
-                    q3 = form.cleaned_data['q293']
-                    txt = q1 + q2 + q3
-                    create_answer(request.user.student, txt, question)
-                    plus_balls(question.id, question, request.user.student.user, txt)
-                    return redirect('tests')
-
-            else:
-                form = UserAnswerForm29()
-        else:
-            completed = 'Вы уже ответили на этот вопрос'
-    else:
-        return redirect('tests')
-    return render(request, 'core/answer29.html', locals())
 
 @login_required(login_url='/signin/')
 def answer(request, id):

@@ -22,9 +22,44 @@ class QuestionAdmin(admin.ModelAdmin):
     list_display = ('question', 'class_number', )
     search_fields = ('question', )
 
+class CategoryEventAdmin(admin.ModelAdmin):
+    search_fields = ('title', 'slug', )
+    prepopulated_fields = {'slug': ('title', )}
+
+class EventAdmin(admin.ModelAdmin):
+    list_filter = ('is_active', 'category')
+    search_fields = ('title', 'content', 'short_description', 'category__title', 'price')
+    prepopulated_fields = {'slug': ('title', )}
+    fieldsets = (
+        ('Основные параметры', {
+            'fields':(
+                'title',
+                'category',
+                'content',
+                'short_description',
+                'main_image',
+                'data_event',
+                'is_active',
+                'price',
+            )
+        }),
+        ('Дополнительные опции',
+            {
+            'classes': ('collapse', ),
+            'fields': ('slug', 'data_created')
+            }
+            )
+    )
+
+class UserInEventAdmin(admin.ModelAdmin):
+    list_filter = ('active', 'paid', 'event')
+    search_fields = ('user__user__last_name', 'user__user__first_name', 'event__title')
+
 admin.site.unregister(Group)
+admin.site.register(CategoryEvent, CategoryEventAdmin)
 admin.site.register(Question, QuestionAdmin)
 admin.site.register(Answer, AnswerAdmin)
 admin.site.register(UserAnswer, UserAnswerAdmin)
 admin.site.register(ClassNumber)
-admin.site.register(Student, StudentAdmin)
+admin.site.register(Event, EventAdmin)
+admin.site.register(UserInEvent, UserInEventAdmin)
