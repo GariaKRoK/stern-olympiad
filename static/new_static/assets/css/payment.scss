@@ -1,0 +1,134 @@
+.payment-layer {
+  background: rgb(69, 16, 138);
+  background: linear-gradient(293deg, rgba(69, 16, 138, 1) 0%, rgba(61, 6, 95, 1) 23%, rgba(16, 5, 77, 1) 100%);
+
+  .site-visit {
+    p {
+      color: White;
+
+      a {
+        color: White;
+      }
+    }
+  }
+
+  .header {
+    .header-nav {
+      .header-item {
+        &:nth-of-type(1) {
+          opacity: 0;
+        }
+
+        .header-link {
+          color: white;
+        }
+      }
+    }
+  }
+}
+
+.payment-bg-layer {
+  .content {
+    #bg-timer-layer-item-1 {
+      animation: none;
+    }
+
+    #bg-timer-layer-item-2 {
+      animation: none;
+      right: 27%;
+      bottom: 15%;
+    }
+
+    #bg-timer-layer-item-3 {
+      animation: none;
+    }
+
+    #bg-timer-layer-item-4 {
+      animation: none;
+    }
+
+    #bg-timer-layer-item-5 {
+      animation: none;
+    }
+
+    #bg-timer-layer-item-6 {
+      animation: none;
+    }
+  }
+}
+
+.payment-dialog-layer {
+  .content {
+    display: flex;
+    flex-direction: column;
+
+    .box {
+      animation: none;
+      margin-bottom: 15%;
+      .text {
+        .heading {
+          p {
+            color: white;
+            text-transform: uppercase;
+            text-align: right;
+            font-size: 24px;
+            position: relative;
+            right: 20vw;
+
+            &:after {
+              content: "!";
+              font-size: 70px;
+              position: absolute;
+              bottom: -10px;
+              font-weight: 700;
+            }
+          }
+        }
+
+        .buttons {
+          display: flex;
+          justify-content: center;
+          margin-top: 50px;
+          .button {
+            margin:0 12px;
+            a {
+              position: relative;
+              text-decoration: none;
+              color:white;
+              font-size: 32px;
+              border: solid 3px $pink;
+              border-radius: 40px;
+              padding: 15px 50px;
+            }
+            &:first-of-type {
+              a {
+                background-color: $pink;
+                transition: .2s linear all;
+                &:hover {
+                  background-color: transparent;
+                  transition: .2s linear all;
+                }
+              }
+            }
+            &:last-of-type {
+              transition: .2s linear all;
+              a {
+                background-color: transparent;
+                transition: .2s linear all;
+                &:hover {
+                  transition: .2s linear all;
+                  background-color: $pink;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+    .payment-image {
+      width: 28%;
+      animation: fadeUpDown 2s infinite linear;
+      position: relative;
+    }
+  }
+}
