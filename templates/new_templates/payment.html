@@ -1,10 +1,11 @@
+{% load static %}
 <!doctype html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="assets/css/main.css">
+    <link rel="stylesheet" href="{% static 'new_static/assets/css/main.css' %}">
     <title>Оплата олимпиады - Штерн</title>
 </head>
 <body>
@@ -21,26 +22,27 @@
 
                 </div>
                 <div class="buttons">
-                    <div class="button">
-                        <a href="">Оплатить</a>
-                    </div>
+                    <form class="form-inline" method="POST" action="">
+                        {% csrf_token %}
+                        <input class="reg-button" id="payment-button-id" type="submit" value="Оплатить">
+                    </form>
                     <div class="button">
                         <a href="">Подробнее</a>
                     </div>
                 </div>
             </div>
         </div>
-        <img class="payment-image" src="assets/images/payment-image.svg" alt="">
+        <img class="payment-image" src="{% static 'new_static/assets/images/payment-image.svg' %}" alt="">
     </div>
 </div>
 <div class="bg-layer payment-bg-layer">
     <div class="content">
-        <img class="bg-timer-layer-item" id="bg-timer-layer-item-1" src="assets/images/payment-bg-item-2.svg" alt="">
-        <img class="bg-timer-layer-item" id="bg-timer-layer-item-2" src="assets/images/payment-bg-item-2.svg" alt="">
-        <img class="bg-timer-layer-item" id="bg-timer-layer-item-3" src="assets/images/payment-bg-item-3.svg" alt="">
-        <img class="bg-timer-layer-item" id="bg-timer-layer-item-4" src="assets/images/payment-bg-item-4.svg" alt="">
-        <img class="bg-timer-layer-item" id="bg-timer-layer-item-5" src="assets/images/payment-bg-item-5.svg" alt="">
-        <img class="bg-timer-layer-item" id="bg-timer-layer-item-6" src="assets/images/payment-bg-item-3.svg" alt="">
+        <img class="bg-timer-layer-item" id="bg-timer-layer-item-1" src="{% static 'new_static/assets/images/payment-bg-item-2.svg' %}" alt="">
+        <img class="bg-timer-layer-item" id="bg-timer-layer-item-2" src="{% static 'new_static/assets/images/payment-bg-item-2.svg' %}" alt="">
+        <img class="bg-timer-layer-item" id="bg-timer-layer-item-3" src="{% static 'new_static/assets/images/payment-bg-item-3.svg' %}" alt="">
+        <img class="bg-timer-layer-item" id="bg-timer-layer-item-4" src="{% static 'new_static/assets/images/payment-bg-item-4.svg' %}" alt="">
+        <img class="bg-timer-layer-item" id="bg-timer-layer-item-5" src="{% static 'new_static/assets/images/payment-bg-item-5.svg' %}" alt="">
+        <img class="bg-timer-layer-item" id="bg-timer-layer-item-6" src="{% static 'new_static/assets/images/payment-bg-item-3.svg' %}" alt="">
     </div>
 </div>
 <div class="template-wrap payment-layer">
@@ -49,7 +51,7 @@
             <ul class="header-nav">
                 <li class="header-item">
                     Пока ждем начала
-                    <img class="arrow" src="assets/images/arrow-1.svg" alt="">
+                    <img class="arrow" src="{% static 'new_static/assets/images/arrow-1.svg' %}" alt="">
                 </li>
                 <li class="header-item">
                     <a class="header-link" href="">
@@ -63,7 +65,7 @@
                 </li>
             </ul>
             <div class="dots-image">
-                <img src="assets/images/bg-layer-6.svg" alt="">
+                <img src="{% static 'new_static/assets/images/bg-layer-6.svg' %}" alt="">
             </div>
         </header>
 
@@ -75,27 +77,22 @@
             <ul class="social-list">
                 <li class="social-item">
                     <a class="social-link" href="#">
-                        <img class="social-image vk" src="assets/images/social-icon-vk.svg" alt="">
+                        <img class="social-image vk" src="{% static 'new_static/assets/images/social-icon-vk.svg' %}" alt="">
                     </a>
                 </li>
                 <li class="social-item">
                     <a class="social-link" href="#">
-                        <img class="social-image instagram" src="assets/images/social-icon-instagram.svg" alt="">
+                        <img class="social-image instagram" src="{% static 'new_static/assets/images/social-icon-instagram.svg' %}" alt="">
                     </a>
                 </li>
             </ul>
         </div>
     </div>
-    <script src="assets/js/jquery-3.5.1.min.js"></script>
-    <script src="assets/js/main.js"></script>
+
 </div>
-
-
-
-
 <footer class="footer" id="footer">
     <div class="footer-images">
-        <img class="stripes" src="assets/images/payment-stripes.svg" alt="">
+        <img class="stripes" src="{% static 'new_static/assets/images/payment-stripes.svg' %}" alt="">
     </div>
     <div class="content">
         <p>
@@ -115,5 +112,7 @@
     <script src="//code-ya.jivosite.com/widget/7l9qiHZFEA" async></script>
 
 </footer>
+<script src="{% static 'new_static/assets/js/jquery-3.5.1.min.js' %}"></script>
+<script src="{% static 'new_static/assets/js/main.js' %}"></script>
 </body>
 </html>

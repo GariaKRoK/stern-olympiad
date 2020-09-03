@@ -99,9 +99,9 @@ MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 #Payment olympiad
-MERCHANT_ID = '*'
-SECRET_KEY = '*'
-PRICE = str(300)
+MERCHANT_ID = ''
+SECRET_KEY = ''
+PRICE = str(500)
 DESC = 'Оплата за олимпиаду'
 
 #Email settings

@@ -10,6 +10,7 @@ urlpatterns = [
     path('payment-check/', payment_check),
     path('olymp/', olymp, name='olymp'),
     path('tests/', tests, name='tests'),
+    re_path('(?P<category_slug>[\w-]+)/(?P<slug>[\w-]+)/time-to-start/', time_to_start, name='time_to_start'),
     path('completed/', completed, name='completed'),
     path('timeout/', timeout, name='timeout'),
     path('contacts/', contacts, name='contacts'),

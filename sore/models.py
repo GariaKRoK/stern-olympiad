@@ -69,6 +69,9 @@ class Event(models.Model):
     def get_absolute_url(self):
         return reverse('event_detail', kwargs={'category_slug': self.category.slug, 'slug': self.slug})
 
+    def get_absolute_url_time_to_start(self):
+        return reverse('time_to_start', kwargs={'category_slug': self.category.slug, 'slug': self.slug})
+
 
 class UserInEvent(models.Model):
     user = models.ForeignKey(Student, on_delete=models.CASCADE, verbose_name='Пользователь')

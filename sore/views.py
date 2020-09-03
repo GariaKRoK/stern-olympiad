@@ -11,7 +11,7 @@ from .models import *
 from hashlib import sha256
 from urllib.parse import urlencode, parse_qsl
 import json
-
+from datetime import datetime
 def signin(request):
     """
         signin view
@@ -126,24 +126,24 @@ def payment(request):
     :return sign to unitpay server
     """
     if request.method == 'POST':
-        if request.user.student.paid:
-            return redirect('olymp')
-        else:
-            account = request.user.username
-            separator = '{up}'
-            params = {
-                'account': account,
-                'desc': settings.DESC,
-                'sum': settings.PRICE,
-            }
-            sign_string = separator.join(['{}'.format(value) for (key, value) in params.items()])
-            sign_string += separator + settings.SECRET_KEY
-            sign = sha256(sign_string.encode('utf-8')).hexdigest()
-            params.update({'signature': sign})
-            params_string = urlencode(params)
-            url = 'https://unitpay.ru/pay/{}?{}'
-            return redirect(url.format(settings.MERCHANT_ID, params_string))
-    return render(request, 'payment/payment.html', locals())
+        #if request.user.student.paid:
+        #    return redirect('olymp')
+        #else:
+        account = request.user.username
+        separator = '{up}'
+        params = {
+            'account': account,
+            'desc': settings.DESC,
+            'sum': settings.PRICE,
+        }
+        sign_string = separator.join(['{}'.format(value) for (key, value) in params.items()])
+        sign_string += separator + settings.SECRET_KEY
+        sign = sha256(sign_string.encode('utf-8')).hexdigest()
+        params.update({'signature': sign})
+        params_string = urlencode(params)
+        url = 'https://unitpay.ru/pay/{}?{}'
+        return redirect(url.format(settings.MERCHANT_ID, params_string))
+    return render(request, 'new_templates/payment.html', locals())
 
 
 
@@ -179,6 +179,18 @@ def plus_balls(id, qs, user, txt):
             plus.count += 1
         plus.save()
     return redirect('tests')
+
+@login_required(login_url='/signin/')
+def time_to_start(request, category_slug, slug):
+    '2020-08-30'
+    time_now = datetime.now()
+    time_start = Event.objects.get(slug=slug).data_event
+    time_start_responce = time_start  
+    int(datetime.datetime.strptime('01/12/2011', '%d/%m/%Y').strftime("%s"))
+    time = datetime.strptime('Jun 1 2005  1:33PM 2011-04-25 12:00:00', '%b %d %Y %I:%M%p')
+    print(time_now)
+    print(time_start)
+    return render(request, 'new_templates/timer.html', locals())
 
 def create_answer(student, txt, qs):
     new = UserAnswer.objects.create(student=student, 
