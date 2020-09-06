@@ -180,17 +180,19 @@ def plus_balls(id, qs, user, txt):
         plus.save()
     return redirect('tests')
 
+
+def time_to_unix(date):
+    return datetime.strptime(date, '%Y-%b-%d %I:%M')
+
 @login_required(login_url='/signin/')
 def time_to_start(request, category_slug, slug):
-    '2020-08-30'
-    time_now = datetime.now()
     time_start = Event.objects.get(slug=slug).data_event
-    time_start_responce = time_start  
-    int(datetime.datetime.strptime('01/12/2011', '%d/%m/%Y').strftime("%s"))
-    time = datetime.strptime('Jun 1 2005  1:33PM 2011-04-25 12:00:00', '%b %d %Y %I:%M%p')
-    print(time_now)
-    print(time_start)
-    return render(request, 'new_templates/timer.html', locals())
+    time_start_str = time_start.strftime("%Y-%m-%d %H:%M:%S")
+    if time_to_unix(datetime.now()) > time_to_unix(time_start):
+        return render(request, 'new_templates/timer.html', {'time_to_start': json.dumps(time_start_str)})
+    else:
+        return redirect('olympiad', kwargs={'category_slug': category_slug, 'slug': slug})
+    
 
 def create_answer(student, txt, qs):
     new = UserAnswer.objects.create(student=student, 

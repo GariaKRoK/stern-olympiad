@@ -11,11 +11,12 @@ urlpatterns = [
     path('olymp/', olymp, name='olymp'),
     path('tests/', tests, name='tests'),
     re_path('(?P<category_slug>[\w-]+)/(?P<slug>[\w-]+)/time-to-start/', time_to_start, name='time_to_start'),
+    re_path('(?P<category_slug>[\w-]+)/(?P<slug>[\w-]+)', olympiad_start, name='olympiad_start'),
     path('completed/', completed, name='completed'),
     path('timeout/', timeout, name='timeout'),
     path('contacts/', contacts, name='contacts'),
     path('agreement/', agreement, name='agreement'),
     path('description/', description, name='description'),
     path('confidentiality/', confidentiality, name='confidentiality'),
-    re_path('tests/(?P<id>[\w-]+)$', answer, name='answer')
+    re_path('(?P<category_slug>[\w-]+)/(?P<slug>[\w-]+)/(?P<id>[\w-]+)$', question, name='question')
 ]

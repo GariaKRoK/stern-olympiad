@@ -2,7 +2,7 @@ import os
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-SECRET_KEY = '*'
+SECRET_KEY = ''
 
 DEBUG = True
 ALLOWED_HOSTS = []
@@ -100,7 +100,7 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 #Payment olympiad
 MERCHANT_ID = ''
-SECRET_KEY = ''
+#SECRET_KEY = ''
 PRICE = str(500)
 DESC = 'Оплата за олимпиаду'
 
