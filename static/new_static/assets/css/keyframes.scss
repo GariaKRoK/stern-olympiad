@@ -80,6 +80,7 @@
     right: 35%;
   }
 }
+
 @keyframes move-2 {
   0% {
     right: 30%;
@@ -117,7 +118,7 @@
     right: 10%;
     bottom: 0;
   }
-  45%{
+  45% {
     bottom: 100%;
     right: 15%;
   }
@@ -138,7 +139,7 @@
     bottom: 40%;
   }
   70% {
-    right:100%;
+    right: 100%;
     bottom: 75%;
   }
   75% {
@@ -150,7 +151,7 @@
     right: 35%;
   }
   85% {
-    right:100%;
+    right: 100%;
     bottom: 25%;
   }
   90% {
@@ -167,72 +168,73 @@
   }
 
 }
+
 @keyframes move-3 {
-  0%{
+  0% {
     right: 10%;
     bottom: 45%;
   }
-  5%{
+  5% {
     right: 0;
     bottom: 20%;
   }
-  10%{
+  10% {
     bottom: 0;
     right: 85%;
   }
-  15%{
+  15% {
     right: 100%;
     bottom: 20%;
   }
-  20%{
+  20% {
     bottom: 0;
-    right: 20%  ;
+    right: 20%;
   }
-  25%{
+  25% {
     right: 0;
     bottom: 25%;
   }
-  30%{
+  30% {
     right: 100%;
     bottom: 40%;
   }
-  35%{
+  35% {
     right: 0;
     bottom: 60%;
   }
-  40%{
+  40% {
     right: 100%;
     bottom: 80%;
   }
-  45%{
+  45% {
     bottom: 100%;
     right: 50%;
   }
-  50%{
+  50% {
     right: 0;
     bottom: 65%;
   }
-  55%{
+  55% {
     bottom: 45%;
     right: 100%;
   }
-  60%{
+  60% {
     bottom: 0;
     right: 35%;
   }
-  65%{
+  65% {
     right: 0;
-    bottom: 20% ;
+    bottom: 20%;
   }
-  70%{
+  70% {
     right: 100%;
     bottom: 35%;
   }
-  75%{
+  75% {
     right: 0;
     bottom: 65%;
   }
-  80%{
+  80% {
     bottom: 100%;
     right: 100%;
   }
@@ -240,25 +242,26 @@
     bottom: 0;
     right: 0;
   }
-  90%{
+  90% {
     bottom: 65%;
     right: 100%;
   }
-  95%{
+  95% {
     bottom: 100%;
     right: 15%;
   }
-  100%{
+  100% {
     right: 10%;
     bottom: 45%;
   }
 }
+
 @keyframes move-4 {
   0% {
     right: 75%;
     bottom: 45%;
   }
-  5%{
+  5% {
     right: 0;
     bottom: 35%;
   }
@@ -334,11 +337,12 @@
     right: 0;
     bottom: 40%;
   }
-  100%{
+  100% {
     right: 75%;
     bottom: 45%;
   }
 }
+
 @keyframes move-5 {
   0% {
     right: 50%;
@@ -420,77 +424,78 @@
     bottom: 0;
     right: 50%;
   }
-  100%{
+  100% {
     right: 50%;
     bottom: 80%;
   }
 }
+
 @keyframes move-6 {
-  0%{
+  0% {
     right: 85%;
     bottom: 15%;
   }
-  5%{
+  5% {
     right: 0;
     bottom: 20%;
   }
-  10%{
+  10% {
     bottom: 100%;
     right: 35%;
   }
-  15%{
+  15% {
     right: 100%;
     bottom: 20%;
   }
-  20%{
+  20% {
     bottom: 75%;
     right: 0;
   }
-  25%{
+  25% {
     right: 0;
     bottom: 25%;
   }
-  30%{
+  30% {
     right: 100%;
     bottom: 20%;
   }
-  35%{
+  35% {
     right: 100%;
     bottom: 75%;
   }
-  40%{
+  40% {
     right: 100%;
     bottom: 35%;
   }
-  45%{
+  45% {
     bottom: 100%;
     right: 20%;
   }
-  50%{
+  50% {
     right: 80%;
     bottom: 65%;
   }
-  55%{
+  55% {
     bottom: 45%;
     right: 100%;
   }
-  60%{
+  60% {
     bottom: 12%;
     right: 95%;
   }
-  65%{
+  65% {
     right: 0;
-    bottom: 20% ;
+    bottom: 20%;
   }
-  70%{
+  70% {
     right: 100%;
     bottom: 85%;
   }
-  75%{
+  75% {
     right: 0;
     bottom: 65%;
   }
-  80%{
+  80% {
     bottom: 100%;
     right: 100%;
   }
@@ -498,16 +503,59 @@
     bottom: 0;
     right: 85%;
   }
-  90%{
+  90% {
     bottom: 65%;
     right: 100%;
   }
-  95%{
+  95% {
     bottom: 100%;
     right: 15%;
   }
-  100%{
+  100% {
     right: 85%;
     bottom: 15%;
+  }
+}
+
+
+@keyframes objectMove {
+  from {
+
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes rocketMove {
+  0% {
+    bottom: 10%;
+    left: 10%;
+    transform: scale(1);
+
+  }
+  50% {
+    bottom: 8%;
+    left: 20%;
+    transform: scale(0.8) rotateZ(15deg);
+  }
+  100% {
+    transform: scale(1);
+
+    bottom: 10%;
+    left: 10%;
+  }
+}
+
+@keyframes planetMove {
+  0% {
+
+  }
+  50% {
+    transform: rotate(360deg) scale(1.45);
+
+  }
+  100% {
+
   }
 }

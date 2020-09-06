@@ -1,4 +1,7 @@
 @import "reset";
+body {
+  overflow-x: hidden;
+}
 @import "fonts";
 @import "variables";
 @import "keyframes";
@@ -8,8 +11,18 @@
 @import "index";
 @import "timer";
 @import "payment";
+@import "olymp";
+@import "final-olymp";
+@import "documents";
+@import "personal-area";
 
 @import "sign";
 
 @import "footer";
+
+
+
+
+
+@import "media";
 

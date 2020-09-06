@@ -313,3 +313,48 @@
   position: absolute;
   width: 100%;
 }
+.timeout-modal {
+  position: absolute;
+  top: 85%;
+  opacity: 0;
+  z-index: -100;
+  right: 3%;
+  .content {
+    background-color: $lightRed;
+    border-radius: 15px;
+    padding: 0.1in 0.3in;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    max-width: 275px;
+    justify-content: space-between;
+    .image {
+      img {
+        height: 50px;
+        width: 50px;
+      }
+    }
+    .text {
+      text-align: center;
+      width: 85%;
+      font-size: 20px;
+      color:white;
+      button {
+        margin-top: 12px;
+        background-color: #434040;
+        border-radius: 15px;
+        padding: 6px 12px;
+        color:white;
+        border: none;
+        font-size: 16px;
+        outline: none;
+        cursor: pointer;
+      }
+    }
+  }
+}
+.timeout-modal-active {
+  opacity: 1;
+  z-index: 10;
+  transition: .2s ease-in-out;
+}
