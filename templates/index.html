@@ -97,11 +97,11 @@
     <div class="content">
         <div class="modal">
             <div class="navigation">
-                <a class="active" id="signInSelector">Войти</a>
+                <a id="signInSelector">Войти</a>
                 <a id="signUpSelector">Регистрация</a>
             </div>
             <div class="forms" >
-                <form class="singInForm" action="{% url 'signin' %}" method="post" id="signInForm">
+                <form class="singInForm" action="/user/signin/" method="post" name="formtype" id="signInForm">
                     <label for="signInUserName">Имя пользователя</label>
                     {% csrf_token %}
                     <br>
@@ -117,7 +117,7 @@
                     {% endif %}
                     <button type="submit">go!</button>
                 </form>
-                <form class="singInForm" action="{% url 'signup' %}" method="post" id="signUpForm">
+                <form class="singInForm" action="/user/signup/" method="post" name="formtype" id="signUpForm">
                     <div class="row">
                         {% csrf_token %}
                         <div class="item">
