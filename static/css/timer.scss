@@ -9,20 +9,21 @@
     z-index: 5;
     position: absolute;
     top: 150px;
-    left: -50px;
     transform: rotate(-90deg);
-
+    left: -50px;
     p {
-      font-size: 28px;
+      font-size: 24px;
+      font-family: "Montserrat-Bold";
 
       &:nth-of-type(2) {
         text-align: right;
       }
 
       a {
+        font-family: "Montserrat-Bold";
         color: $brown;
         text-decoration: none;
-        font-size: 18px;
+        font-size: 15px;
         transition: .2s linear all;
 
         & {
@@ -86,6 +87,7 @@
       .header-item {
         font-size: 28px;
         position: relative;
+        font-family: "Montserrat-Bold",sans-serif;
         .header-link {
           position: relative;
           color: $brown;
@@ -188,7 +190,7 @@
   .social-links {
     position: absolute;
     left: 50px;
-    top: 35%;
+    top: 45%;
     z-index: 5;
 
     .social-list {
@@ -197,8 +199,8 @@
 
         .social-link {
           .social-image {
-            height: 50px;
-            width: 50px;
+            height: 40px;
+            width: 40px;
             transition: .2s all linear;
 
             &:hover {
@@ -256,6 +258,7 @@
       text-decoration: none;
       display: inline-block;
       font-size: 28px;
+      font-family: "Montserrat-ExtraLight";
 
       &:hover {
         color: $darkRed;
@@ -270,6 +273,7 @@
     text-align: center;
     color: $brown;
     font-size: 28px;
+    font-family: "Montserrat-ExtraLight";
 
     span {
       color: $turquoise;

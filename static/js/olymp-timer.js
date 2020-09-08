@@ -1,6 +1,5 @@
 
 function olympTimer() {
-    let deadline = '2020-10-21'
     function getTimeRemaining(endtime) {
         let t = Date.parse(endtime) - Date.parse(new Date())
         let seconds = Math.floor((t / 1000) % 60)

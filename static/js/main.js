@@ -15,32 +15,32 @@ $('#popular-problems-modal-close').click(function (){
 })
 $('.vk').hover(function () {
     let el = $(this)
-    el.attr('src', 'assets/images/social-icon-vk-hovered.svg')
+    el.attr('src', '/static/images/social-icon-vk-hovered.svg')
 }, function () {
     let el = $(this)
-    el.attr('src', 'assets/images/social-icon-vk.svg')
+    el.attr('src', '/static/images/social-icon-vk.svg')
 })
 $('.instagram').hover(function () {
     let el = $(this)
-    el.attr('src', 'assets/images/social-icon-instagram-hovered.svg')
+    el.attr('src', '/static/images/social-icon-instagram-hovered.svg')
 }, function () {
     let el = $(this)
-    el.attr('src', 'assets/images/social-icon-instagram.svg')
+    el.attr('src', '/static/images/social-icon-instagram.svg')
 })
 
 $('.vk-white').hover(function () {
     let el = $(this)
-    el.attr('src', 'assets/images/social-icon-vk-hovered.svg')
+    el.attr('src', '/static/images/social-icon-vk-hovered.svg')
 }, function () {
     let el = $(this)
-    el.attr('src', 'assets/images/social-icon-vk-white.svg')
+    el.attr('src', '/static/images/social-icon-vk-white.svg')
 })
 $('.instagram-white').hover(function () {
     let el = $(this)
-    el.attr('src', 'assets/images/social-icon-instagram-hovered.svg')
+    el.attr('src', '/static/images/social-icon-instagram-hovered.svg')
 }, function () {
     let el = $(this)
-    el.attr('src', 'assets/images/social-icon-instagram-white.svg')
+    el.attr('src', '/static/images/social-icon-instagram-white.svg')
 })
 
 
