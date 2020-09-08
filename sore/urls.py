@@ -3,8 +3,8 @@ from .views import *
 
 urlpatterns = [
     path('', redirect_index),
-    path('signup/', signup, name='signup'),
-    path('signin/', signin, name='signin'),
+    path('user/signup', signup, name='signup'),
+    path('user/signin', signin, name='signin'),
     path('payment/', payment, name='payment'),
     path('bad-payment/', bad_payment, name='bad_payment'),
     path('succes-payment/', succes_payment, name='succes_payment'),

@@ -97,82 +97,43 @@
     <div class="content">
         <div class="modal">
             <div class="navigation">
-                <a class="active" id="signInSelector">Войти</a>
-                <a id="signUpSelector">Регистрация</a>
+                <a id="signInSelector">Войти</a>
+                <a class="active" id="signUpSelector">Регистрация</a>
             </div>
             <div class="forms" >
-                <form class="singInForm" action="{% url 'signin' %}" method="post" id="signInForm">
-                    <label for="signInUserName">Имя пользователя</label>
-                    {% csrf_token %}
-                    <br>
-                    <input type="text" name='username' id="signInUserName">
-                    <br>
-                    <label for="signInPassword">Пароль</label>
-                    <br>
-                    <input type="password" name='password' id="signInPassword">
-                    {% if error %}
-                        <div class="error-text">
-                            {{ error }}
-                        </div>
-                    {% endif %}
-                    <button type="submit">go!</button>
-                </form>
                 <form class="singInForm" action="{% url 'signup' %}" method="post" id="signUpForm">
                     <div class="row">
                         {% csrf_token %}
                         <div class="item">
                             {% render_field user_form.username for='signUpUserName' id="signUpUserName" class="modalFormInput" label="Имя пользователя" %}
-                            <br>
-                            <input type="text" id="signUpUserName">
                         </div>
                         <div class="item">
                             {% render_field user_form.password1 label="Пароль" for="signUpPassword" id="signUpPassword" class="modalFormInput" placeholder="Пароль"%}
                             {% render_field user_form.password2 class="modalFormInput" pllabel="Подтвердите пароль" for="signUpPassword" id="signUpPassword2"aceholder="Подтвердите пароль"%}
-
-                            <br>
-                            <input type="text" id="signUpPassword">
                         </div>
                     </div>
                     <div class="row">
                         <div class="item">
-                            <label for="signUpEmail">Почта</label>
                             {% render_field user_form.email id="signUpEmail" for="signUpEmail" class="modalFormInput" label="Электронная почта"%}
-                            <br>
-                            <input type="text" id="signUpEmail">
                         </div>
                         <div class="item">
-                            <label for="signUpPhone">Номер телефона</label>
                             {% render_field student_form.telephone_number id="signUpPhone" for="signUpPhone" class="modalFormInput" label="Телефонный номер" %}
-                            <br>
-                            <input type="text" id="signUpPhone">
                         </div>
                     </div>
                     <div class="row">
                         <div class="item">
-                            <label for="signUpName">Имя</label>
                             {% render_field user_form.first_name id="signUpName" for="signUpName" class="modalFormInput" label="Имя" %}
-                            <br>
-                            <input type="text" id="signUpName">
                         </div>
                         <div class="item">
-                            <label for="signUpLastName">Фамилия</label>
                             {% render_field user_form.last_name id="signUpLastName" for="signUpLastName" class="modalFormInput" label="Фамилия"%}
-                            <br>
-                            <input type="text" id="signUpLastName">
                         </div>
                     </div>
                     <div class="row">
                         <div class="item">
-                            <label for="schoolClass">Класс</label>
                             {% render_field student_form.class_number label='Класс' id="schoolClass" class="modalFormInput" placeholder="Класс"%}
-                            <br>
-                            <input type="text" id="schoolClass">
                         </div>
                         <div class="item">
                             {% render_field student_form.name_school label='Школа' for="school" id="school" class="modalFormInput" placeholder="Название Вашей школы" %}
-                            <label for="school">Школа</label>
-                            <br>
-                            <input type="text" id="school">
                         </div>
                     </div>
                     {% if messages %}

@@ -12,6 +12,7 @@ from hashlib import sha256
 from urllib.parse import urlencode, parse_qsl
 import json
 from datetime import datetime
+
 def signin(request):
     """
         signin view
@@ -27,8 +28,8 @@ def signin(request):
         else:
             return redirect('signin')
     else:
-        return render(request, 'user/signin.html')
-    return render(request, 'user/signin.html')
+        return render(request, 'user/signup.html')
+    return render(request, 'user/signup.html')
 
 def redirect_index(request):
     return redirect('signin')
@@ -86,6 +87,10 @@ def signup(request):
                         [email, ],
                         fail_silently=False
                         )
+                new_user_in_event = UserInEvent.objects.create(
+                                        user=user_form.cleaned_data.get('username'),
+                                        event=Event.objects.get(classes=student_form.cleaned_data.get('class_number')),
+                                        paid=False, active=True, date_registration=datetime.now())
                 
                 return redirect('payment')
                 
@@ -125,24 +130,27 @@ def payment(request):
     
     :return sign to unitpay server
     """
-    if request.method == 'POST':
-        #if request.user.student.paid:
-        #    return redirect('olymp')
-        #else:
-        account = request.user.username
-        separator = '{up}'
-        params = {
-            'account': account,
-            'desc': settings.DESC,
-            'sum': settings.PRICE,
-        }
-        sign_string = separator.join(['{}'.format(value) for (key, value) in params.items()])
-        sign_string += separator + settings.SECRET_KEY
-        sign = sha256(sign_string.encode('utf-8')).hexdigest()
-        params.update({'signature': sign})
-        params_string = urlencode(params)
-        url = 'https://unitpay.ru/pay/{}?{}'
-        return redirect(url.format(settings.MERCHANT_ID, params_string))
+    student = UserInEvent.objects.get(user=request.user.username)
+
+    if not student.paid:
+
+        if request.method == 'POST':
+            account = request.user.username
+            separator = '{up}'
+            params = {
+                'account': account,
+                'desc': settings.DESC,
+                'sum': settings.PRICE,
+            }
+            sign_string = separator.join(['{}'.format(value) for (key, value) in params.items()])
+            sign_string += separator + settings.SECRET_KEY
+            sign = sha256(sign_string.encode('utf-8')).hexdigest()
+            params.update({'signature': sign})
+            params_string = urlencode(params)
+            url = 'https://unitpay.ru/pay/{}?{}'
+            return redirect(url.format(settings.MERCHANT_ID, params_string))
+    else:
+        return redirect('time_to_start', kwargs={'category_slug':'olimpiada', 'slug': student.event.slug})
     return render(request, 'payment.html', locals())
 
 
@@ -161,11 +169,11 @@ def tests(request):
 
         question - all questions for user
     """
+    user_in_event = UserInEvent.objects.get(user=request.user.username)
     if request.user.student.paid == True:
         class_number = request.user.student.class_number
         link_timer = settings.DICT_LINK_TIMER[str(class_number)]
         question = Question.objects.filter(class_number=request.user.student.class_number)
-        
         return render(request, 'core/tests.html', {'question': question, 'link_timer': link_timer})
     else:
         return redirect('payment')

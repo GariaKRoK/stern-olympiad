@@ -53,7 +53,7 @@ class Event(models.Model):
     short_description = HTMLField(verbose_name='Краткое описание', blank=True, null=True)
     data_created = models.DateTimeField(verbose_name='Дата создания', default=timezone.now)
     data_event = models.DateTimeField(verbose_name='Дата мероприятия')
-    #classes = models.ManyToManyField(Classes, verbose_name='Принимающие участие классы')
+    classes = models.ManyToManyField(ClassNumber, verbose_name='Принимающие участие классы')
     is_active = models.BooleanField(default=True, verbose_name='Активность мероприятия')
     price = models.FloatField(verbose_name='Цены', blank=True, null=True, default=0)
     category = models.ForeignKey(CategoryEvent, on_delete=models.DO_NOTHING, verbose_name='Категория')
@@ -92,6 +92,8 @@ class Question(models.Model):
     class_number = models.ForeignKey(ClassNumber, on_delete=models.CASCADE, verbose_name='Номер класса')
     question = models.CharField('Вопрос', max_length=1000)
     image = models.ImageField('Фото', upload_to='pictures/', blank=True, null=True)
+    count_answers = models.IntegerField('Количество ответов', default=1)
+    count_balls = models.IntegerField('Количество баллов за правильный ответ', default=1)
 
     def __str__(self):
         return self.question
@@ -104,9 +106,9 @@ class Question(models.Model):
         verbose_name_plural = 'Вопросы'
 
 class Answer(models.Model):
+    event = models.ForeignKey(Event, on_delete=models.CASCADE, verbose_name='Олимпиада')
     question = models.ForeignKey(Question, on_delete=models.CASCADE, verbose_name='Вопрос')
     text = models.CharField('Ответ', max_length=1000)
-    correct = models.BooleanField('Верный ли ответ', default=False)
 
     def __str__(self):
         return self.text

@@ -14,9 +14,9 @@ class UserAnswerAdmin(admin.ModelAdmin):
     search_fields = ('student', 'answer', 'question')
     
 class AnswerAdmin(admin.ModelAdmin):
-    list_display = ('question', 'text', 'correct', )
+    #list_display = ('question', 'text')
     search_fields = ('text', )
-    list_editable = ('text', 'correct')
+    #list_editable = ('text', 'correct')
     
 class QuestionAdmin(admin.ModelAdmin):
     list_display = ('question', 'class_number', )
