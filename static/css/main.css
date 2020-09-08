@@ -618,6 +618,12 @@ body {
 .index-layer .content .box {
   animation: none;
 }
+.index-layer .content #index-anim {
+  width: 100%;
+  max-width: 550px;
+  height: 100%;
+  max-height: 550px;
+}
 .index-layer .header .header-nav .header-item:nth-of-type(1) {
   opacity: 0;
 }
@@ -704,7 +710,7 @@ body {
 .sign-modal {
   position: absolute;
   width: 100%;
-  z-index: 5;
+  z-index: -5;
   top: 0;
   display: flex;
   justify-content: center;
@@ -716,6 +722,19 @@ body {
   align-items: center;
   justify-content: center;
   height: 100%;
+  position: relative;
+}
+.sign-modal .content img {
+  right: 30px;
+  top: 13%;
+  cursor: pointer;
+  position: absolute;
+  height: 40px;
+  width: 40px;
+}
+.sign-modal .content img:hover {
+  transform: rotate(180deg);
+  transition: 0.3s linear;
 }
 .sign-modal .content .modal {
   background-color: #f6e55c;
@@ -806,7 +825,7 @@ body {
   width: 100%;
   position: absolute;
   top: -10px;
-  z-index: 4;
+  z-index: -10;
 }
 .sign-modal-bg .content {
   max-height: calc(100vh + 16px);
@@ -819,6 +838,19 @@ body {
 .sign-modal-bg .content img {
   width: 65%;
   height: inherit;
+}
+
+.sign-modal-active {
+  z-index: 5;
+}
+
+.sign-modal-bg-active {
+  z-index: 4;
+}
+
+.index-page-layer {
+  background-image: url("../images/index-page-bg.svg");
+  background-size: cover;
 }
 
 .template-wrap {

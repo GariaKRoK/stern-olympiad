@@ -64,7 +64,14 @@ $('#payment-read-more').click(function (){
 $('#modal-payment-close').click(function (){
     $('#modal-payment').removeClass('modal-payment-active')
 })
-
+$('.sign-modal-Buttons').click(function () {
+    $('#signModal').addClass('sign-modal-active')
+    $('#signModalBg').addClass('sign-modal-bg-active')
+})
+$('#sign-modal-close').click(function (){
+    $('#signModal').removeClass('sign-modal-active')
+    $('#signModalBg').removeClass('sign-modal-bg-active')
+})
 
 setTimeout(function (){
     $('#preloader').remove()

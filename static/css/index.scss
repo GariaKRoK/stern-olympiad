@@ -3,6 +3,12 @@
     .box {
       animation: none;
     }
+    #index-anim {
+      width: 100%;
+      max-width: 550px;
+      height: 100%;
+      max-height: 550px;
+    }
   }
 
   .header {
@@ -127,17 +133,31 @@
 .sign-modal {
   position: absolute;
   width: 100%;
-  z-index: 5;
+  z-index: -5;
   top: 0;
   display: flex;
   justify-content: center;
   align-items: flex-start;
   height: 100vh;
+
   .content {
     display: flex;
     align-items: center;
     justify-content: center;
     height: 100%;
+    position: relative;
+      img {
+        right: 30px;
+        top: 13%;
+        cursor: pointer;
+        position: absolute;
+        height: 40px;
+        width: 40px;
+        &:hover {
+          transform: rotate(180deg);
+          transition: .3s linear;
+        }
+      }
     .modal {
       background-color: $yellow;
       padding: 30px 42px;
@@ -234,7 +254,7 @@
   width: 100%;
   position: absolute;
   top: -10px;
-  z-index: 4;
+  z-index: -10;
 
   .content {
     max-height: calc(100vh + 16px);
@@ -250,4 +270,16 @@
       height: inherit;
     }
   }
+}
+.sign-modal-active {
+  z-index: 5;
+}
+
+.sign-modal-bg-active {
+  z-index: 4;
+}
+
+.index-page-layer {
+  background-image: url('../images/index-page-bg.svg');
+  background-size: cover;
 }
