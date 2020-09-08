@@ -58,8 +58,12 @@ $('#signInSelector').click(function (){
     $('#signUpForm').css({'left':'-1000%','transition':'.3s linear all'})
     $('#signInForm').css({'left':'0','transition':'.3s linear all'})
 })
-
-
+$('#payment-read-more').click(function (){
+    $('#modal-payment').addClass('modal-payment-active')
+})
+$('#modal-payment-close').click(function (){
+    $('#modal-payment').removeClass('modal-payment-active')
+})
 
 
 setTimeout(function (){
