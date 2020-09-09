@@ -15,32 +15,32 @@ $('#popular-problems-modal-close').click(function (){
 })
 $('.vk').hover(function () {
     let el = $(this)
-    el.attr('src', 'assets/images/social-icon-vk-hovered.svg')
+    el.attr('src', '/static/images/social-icon-vk-hovered.svg')
 }, function () {
     let el = $(this)
-    el.attr('src', 'assets/images/social-icon-vk.svg')
+    el.attr('src', '/static/images/social-icon-vk.svg')
 })
 $('.instagram').hover(function () {
     let el = $(this)
-    el.attr('src', 'assets/images/social-icon-instagram-hovered.svg')
+    el.attr('src', '/static/images/social-icon-instagram-hovered.svg')
 }, function () {
     let el = $(this)
-    el.attr('src', 'assets/images/social-icon-instagram.svg')
+    el.attr('src', '/static/images/social-icon-instagram.svg')
 })
 
 $('.vk-white').hover(function () {
     let el = $(this)
-    el.attr('src', 'assets/images/social-icon-vk-hovered.svg')
+    el.attr('src', '/static/images/social-icon-vk-hovered.svg')
 }, function () {
     let el = $(this)
-    el.attr('src', 'assets/images/social-icon-vk-white.svg')
+    el.attr('src', '/static/images/social-icon-vk-white.svg')
 })
 $('.instagram-white').hover(function () {
     let el = $(this)
-    el.attr('src', 'assets/images/social-icon-instagram-hovered.svg')
+    el.attr('src', '/static/images/social-icon-instagram-hovered.svg')
 }, function () {
     let el = $(this)
-    el.attr('src', 'assets/images/social-icon-instagram-white.svg')
+    el.attr('src', '/static/images/social-icon-instagram-white.svg')
 })
 
 
@@ -58,9 +58,20 @@ $('#signInSelector').click(function (){
     $('#signUpForm').css({'left':'-1000%','transition':'.3s linear all'})
     $('#signInForm').css({'left':'0','transition':'.3s linear all'})
 })
-
-
-
+$('#payment-read-more').click(function (){
+    $('#modal-payment').addClass('modal-payment-active')
+})
+$('#modal-payment-close').click(function (){
+    $('#modal-payment').removeClass('modal-payment-active')
+})
+$('.sign-modal-Buttons').click(function () {
+    $('#signModal').addClass('sign-modal-active')
+    $('#signModalBg').addClass('sign-modal-bg-active')
+})
+$('#sign-modal-close').click(function (){
+    $('#signModal').removeClass('sign-modal-active')
+    $('#signModalBg').removeClass('sign-modal-bg-active')
+})
 
 setTimeout(function (){
     $('#preloader').remove()

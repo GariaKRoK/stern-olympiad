@@ -207,22 +207,26 @@
   z-index: -5;
   opacity: 0;
   transition: .2s linear all;
-  background-color: rgba(255,255,255,0.5);
+  background-color: rgba(255, 255, 255, 0.5);
   height: calc(100vh + 196px);
   width: 100%;
+
   .box {
     display: flex;
     justify-content: center;
     position: relative;
     bottom: 100px;
     width: 100%;
+
     .wrapper {
       width: 35%;
       margin: 0 auto;
       position: relative;
+
       #start-modal-bg-1 {
         width: 100%;
       }
+
       #start-modal-bg-2 {
         width: 50%;
         position: absolute;
@@ -230,6 +234,7 @@
         left: -10%;
         top: 10%;
       }
+
       #start-modal-bg-3 {
         left: 10%;
         top: 17.5%;
@@ -237,6 +242,7 @@
         z-index: 14;
         position: absolute;
       }
+
       .content {
         display: flex;
         justify-content: center;
@@ -247,21 +253,24 @@
         top: 0;
         position: absolute;
         width: 100%;
+
         p {
           font-size: 54px;
-          color:white;
+          color: white;
           position: relative;
           right: 5%;
           margin: 50px;
         }
+
         a {
           cursor: pointer;
           right: 5%;
           position: relative;
-          color:white;
+          color: white;
           text-decoration: none;
           font-size: 54px;
           text-transform: uppercase;
+
           & {
             position: relative;
             padding: 0 0.2em;
@@ -313,12 +322,14 @@
   position: absolute;
   width: 100%;
 }
+
 .timeout-modal {
   position: absolute;
   top: 85%;
   opacity: 0;
   z-index: -100;
   right: 3%;
+
   .content {
     background-color: $lightRed;
     border-radius: 15px;
@@ -328,23 +339,26 @@
     width: 100%;
     max-width: 275px;
     justify-content: space-between;
+
     .image {
       img {
         height: 50px;
         width: 50px;
       }
     }
+
     .text {
       text-align: center;
       width: 85%;
       font-size: 20px;
-      color:white;
+      color: white;
+
       button {
         margin-top: 12px;
         background-color: #434040;
         border-radius: 15px;
         padding: 6px 12px;
-        color:white;
+        color: white;
         border: none;
         font-size: 16px;
         outline: none;
@@ -353,8 +367,205 @@
     }
   }
 }
+
 .timeout-modal-active {
   opacity: 1;
   z-index: 10;
   transition: .2s ease-in-out;
+}
+
+.olymp {
+  .content {
+    .box {
+      .button {
+        a {
+          font-family: "Montserrat-Light";
+
+        }
+      }
+
+      .navigation {
+        ul {
+          li {
+            font-family: "Montserrat-Bold";
+          }
+        }
+      }
+
+      .question-timer {
+        font-family: "Montserrat-Light";
+
+      }
+
+      .question-slider {
+        .slide {
+          .text {
+            font-family: "Montserrat-Light";
+          }
+
+          .answer {
+            p {
+              font-family: "Montserrat-Light";
+            }
+          }
+        }
+      }
+
+    }
+  }
+}
+
+.dialog-layer {
+  .content {
+    .box {
+      .text {
+        .heading {
+          font-family: "Montserrat-Medium";
+
+        }
+
+        #timer {
+          font-family: "Montserrat-Bold";
+          font-size: 48px;
+        }
+
+        .description {
+          font-family: "Montserrat-Light";
+        }
+      }
+    }
+  }
+}
+
+.bad-payment-dialog-layer {
+  .content {
+    .box {
+      .title {
+        font-family: "Montserrat-Regular";
+      }
+
+      .subtitle {
+        font-family: "Montserrat-Light";
+      }
+
+      .button {
+        a {
+          font-family: "Montserrat-Regular";
+        }
+      }
+    }
+  }
+}
+
+.dialog-layer-documents {
+  .content {
+    .wrapper {
+      .item {
+        span {
+          font-family: "Montserrat-Bold";
+
+        }
+      }
+    }
+  }
+}
+
+.sign-modal {
+  font-family: "Montserrat-Regular";
+
+  .content {
+    .modal {
+      .navigation {
+
+      }
+    }
+  }
+}
+
+.index-layer {
+  .content {
+    .box {
+      .description {
+        font-family: "Montserrat-ExtraLight";
+      }
+    }
+  }
+}
+
+.payment-dialog-layer {
+  .content {
+    .box {
+      .text {
+        .heading {
+          font-family: "Montserrat-Bold";
+        }
+
+        .buttons {
+          input {
+            font-family: "Montserrat-ExtraLight";
+          }
+
+          a {
+            font-family: "Montserrat-ExtraLight";
+          }
+        }
+      }
+    }
+  }
+}
+
+.personal-dialog-layer {
+  .content {
+    .profile-wrapper {
+      .left-side {
+        font-family: "Montserrat-Bold";
+
+        .profile-short-info {
+          .settings-button {
+            font-size: 14px;
+          }
+        }
+      }
+
+      .profile-box {
+        .top {
+          font-family: "Montserrat-Bold";
+
+        }
+
+        form {
+          .row {
+            label {
+              font-family: "Montserrat-Regular";
+            }
+
+            input {
+              font-family: "Montserrat-Bold";
+            }
+          }
+
+          button {
+            font-family: "Montserrat-Regular";
+          }
+        }
+      }
+    }
+  }
+}
+
+.suc-payment-dialog-layer {
+  .content {
+    .box {
+      .title {
+        font-family: "Montserrat-SemiBold" !important;
+      }
+
+      .button {
+        a {
+          font-family: "Montserrat-SemiBold" !important;
+
+        }
+      }
+    }
+  }
 }

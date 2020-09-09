@@ -1,4 +1,3 @@
-
 $('.question-slider').slick({
     infinite:true,
     slidesToShow: 1,
