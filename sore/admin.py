@@ -19,7 +19,7 @@ class AnswerAdmin(admin.ModelAdmin):
     #list_editable = ('text', 'correct')
     
 class QuestionAdmin(admin.ModelAdmin):
-    list_display = ('question', 'class_number', )
+    list_display = ('question', 'event', )
     search_fields = ('question', )
 
 class CategoryEventAdmin(admin.ModelAdmin):
@@ -41,6 +41,7 @@ class EventAdmin(admin.ModelAdmin):
                 'data_event',
                 'is_active',
                 'price',
+                'classes'
             )
         }),
         ('Дополнительные опции',

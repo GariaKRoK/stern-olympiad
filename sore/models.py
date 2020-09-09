@@ -53,7 +53,7 @@ class Event(models.Model):
     short_description = HTMLField(verbose_name='Краткое описание', blank=True, null=True)
     data_created = models.DateTimeField(verbose_name='Дата создания', default=timezone.now)
     data_event = models.DateTimeField(verbose_name='Дата мероприятия')
-    classes = models.ManyToManyField(ClassNumber, verbose_name='Принимающие участие классы')
+    classes = models.ForeignKey(ClassNumber, on_delete=models.CASCADE, default=1, verbose_name='Принимающие участие классы')
     is_active = models.BooleanField(default=True, verbose_name='Активность мероприятия')
     price = models.FloatField(verbose_name='Цены', blank=True, null=True, default=0)
     category = models.ForeignKey(CategoryEvent, on_delete=models.DO_NOTHING, verbose_name='Категория')
@@ -75,7 +75,7 @@ class Event(models.Model):
 
 class UserInEvent(models.Model):
     user = models.ForeignKey(Student, on_delete=models.CASCADE, verbose_name='Пользователь')
-    event = models.ForeignKey(Event, on_delete=models.CASCADE, verbose_name='Мероприятие')
+    event = models.ForeignKey(Event, on_delete=models.CASCADE, default=1, verbose_name='Мероприятие')
     paid = models.BooleanField(default=False, verbose_name='Оплатил ли пользователь участие')
     active = models.BooleanField(default=True, verbose_name='Будет ли принимать участие пользователь')
     date_registration = models.DateTimeField(auto_now_add=True, verbose_name='Дата регистрации на мероприятие')
@@ -89,7 +89,7 @@ class UserInEvent(models.Model):
 
 
 class Question(models.Model):
-    class_number = models.ForeignKey(ClassNumber, on_delete=models.CASCADE, verbose_name='Номер класса')
+    event = models.ForeignKey(Event, on_delete=models.CASCADE, verbose_name='Олимпиада')
     question = models.CharField('Вопрос', max_length=1000)
     image = models.ImageField('Фото', upload_to='pictures/', blank=True, null=True)
     count_answers = models.IntegerField('Количество ответов', default=1)

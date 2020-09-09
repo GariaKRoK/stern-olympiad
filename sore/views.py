@@ -11,7 +11,7 @@ from .models import *
 from hashlib import sha256
 from urllib.parse import urlencode, parse_qsl
 import json
-from datetime import datetime
+import datetime
 
 def auth_user(request):
     """
@@ -19,66 +19,61 @@ def auth_user(request):
         using django authenticate mechanism
     """
     if request.method == 'POST':
-        if request.POST.get("form_type") == 'signInForm':
-            username = request.POST.get('username')
-            password = request.POST.get('password')
+        if 'password22' in request.POST:
+            username = request.POST.get('username22')
+            password = request.POST.get('password22')
             user = auth.authenticate(username=username, password=password)
             if user is not None:
                 auth.login(request, user)
                 return redirect('payment')
             else:
+                messages.info(request, 'Неверный логин или пароль')
                 return redirect('auth_user')
         else:
             if User.objects.filter(username=request.POST.get('username')).exists():
                     messages.info(request, 'Логин уже занят')
-
-            elif request.POST.get('password1') != request.POST.get('password2'):
-                messages.info(request, 'Пароли не совпадают или пароль меньше 8 символов')
             else:
-            
                 if User.objects.filter(email=request.POST.get('email')).exists():
                     messages.info(request, 'Электронная почта уже занята')
-             
                 else:
-                
-                    user = user_form.save(commit=False)
-                    email = user_form.cleaned_data.get('email')
+                    new_user = User.objects.create(username=request.POST.get('username'),
+                                                   email=request.POST.get('email'), first_name=request.POST.get('first_name'),
+                                                   last_name=request.POST.get('last_name'), password=request.POST.get('password'))
 
-                    user_form.save()
-
-                    login(request, user, backend='django.contrib.auth.backends.ModelBackend')            
-                    student = student_form.save(commit=False) 
-                    student.user = User.objects.get(username=user_form.cleaned_data.get('username'))
-                    student.telephone_number = student_form.cleaned_data.get('telephone_number')
-                    student.class_number = student_form.cleaned_data.get('class_number')
-                    student.name_school = student_form.cleaned_data.get('name_school')
-                    student_form.save()
-
+                    #login(request, user, backend='django.contrib.auth.backends.ModelBackend')            
+                    user = User.objects.get(username=request.POST.get('username'))
+                    telephone_number = request.POST.get('telephone_number')
+                    class_number = request.POST.get('class_number')
+                    name_school = request.POST.get('name_school')
+                    class_number_get = ClassNumber.objects.get(name=class_number)
+                    student = Student.objects.create(user=new_user, telephone_number=telephone_number,
+                                                        class_number=class_number_get, name_school=name_school)
+                    
                     with open('send.txt', 'r+', encoding='UTF-8') as f:
                         old_file_content = f.read() # read everything in the file
 
                         #insert data into txt file
                         new_file_content = old_file_content.format(
-                                                    str(user_form.cleaned_data.get('username')),
-                                                    str(user_form.cleaned_data.get('password1')))
+                                                    str(request.POST.get('username')),
+                                                    str(request.POST.get('password')))
 
                         #send mail with password and username to new user
                         send_mail(
                             'Регистрация на онлайн олимпиаду',
                             str(new_file_content),
                             settings.EMAIL_HOST_USER,
-                            [email, ],
+                            [request.POST.get('email'), ],
                             fail_silently=False
                             )
+                    
+                    event_for_user = Event.objects.get(classes__name=class_number_get)
                     new_user_in_event = UserInEvent.objects.create(
-                                            user=user_form.cleaned_data.get('username'),
-                                            event=Event.objects.get(classes=student_form.cleaned_data.get('class_number')),
-                                            paid=False, active=True, date_registration=datetime.now())
-
+                                            user=student,
+                                            event=event_for_user,
+                                            paid=False, active=True, date_registration=datetime.datetime.now())
+                    if user is not None:
+                        auth.login(request, user)
                     return redirect('payment')
-
-                
-                   
     return render(request, 'index.html', locals())
 
 def redirect_index(request):
@@ -103,10 +98,8 @@ def payment(request):
     
     :return sign to unitpay server
     """
-    student = UserInEvent.objects.filter(user__user__username=request.user.username)
-    
-    if not student.paid:
-
+    student = UserInEvent.objects.get(user__user__username=request.user.username)
+    if student.paid == False:
         if request.method == 'POST':
             account = request.user.username
             separator = '{up}'
@@ -123,7 +116,7 @@ def payment(request):
             url = 'https://unitpay.ru/pay/{}?{}'
             return redirect(url.format(settings.MERCHANT_ID, params_string))
     else:
-        return redirect('time_to_start', kwargs={'category_slug':'olimpiada', 'slug': student.event.slug})
+        return redirect(reverse('time_to_start', kwargs={'category_slug':'olimpiada', 'slug': student.event.slug}))
     return render(request, 'payment.html', locals())
 
 
@@ -163,16 +156,16 @@ def plus_balls(id, qs, user, txt):
 
 
 def time_to_unix(date):
-    return datetime.strptime(date, '%Y-%b-%d %I:%M')
+    return datetime.datetime.strptime(date, '%Y-%b-%d %I:%M')
 
 @login_required(login_url='/user/auth/')
 def time_to_start(request, category_slug, slug):
     time_start = Event.objects.get(slug=slug).data_event
     time_start_str = time_start.strftime("%Y-%m-%d %H:%M:%S")
-    #if time_to_unix(datetime.now()) > time_to_unix(time_start):
-    return render(request, 'timer.html', {'time_to_start': json.dumps(time_start_str)})
-    #else:
-    #    return redirect('olympiad', kwargs={'category_slug': category_slug, 'slug': slug})
+    if datetime.datetime.now().timestamp() > time_start.timestamp():
+        return render(request, 'timer.html', {'time_to_start': json.dumps(time_start_str)})
+    else:
+        return redirect(reverse('start_olympiad', kwargs={'category_slug': category_slug, 'slug': slug}))
 
 @login_required(login_url='/user/auth/')
 def final(request, category_slug, slug):
@@ -181,6 +174,10 @@ def final(request, category_slug, slug):
 @login_required(login_url='/user/auth/')
 def start_olympiad(request, category_slug, slug):
     data = Event.objects.get(slug=slug)
+    id_first_question = Question.objects.filter(event__slug=slug)
+    print(id_first_question)
+    #if 'start-modal-start' in request.POST:
+    #    return redirect(reverse('question', kwargs={'category_slug': category_slug, 'slug': slug, 'id': id}))
     return render(request, 'start-olymp.html', locals())
 
 def create_answer(student, txt, qs):
@@ -194,7 +191,6 @@ def create_answer(student, txt, qs):
 def question(request, category_slug, slug, id):
     return render(request, 'olymp.html')
 
-@login_required(login_url='/user/auth/')
 def index(request):
     return render(request, 'index.html')
 
@@ -239,12 +235,6 @@ def olymp(request):
     qs.paid = True
     qs.save()
     return render(request, 'core/olymp.html')
-
-
-@login_required(login_url='/user/auth/')
-def completed(request):
-    #will be called if user completed olympiad
-    return render(request, 'info/completed.html')
 
 def payment_check(request):
     """
@@ -293,7 +283,6 @@ def payment_check(request):
     else:
         return json.dumps({'message': 'Метод не поддерживается'})
 
-@login_required(login_url='/user/auth/')
 def bad_payment(request):
     """
     :param request: standard django param
@@ -308,10 +297,6 @@ def timeout(request):
     #will be called if the time of your olympiad is over
     return render(request, 'info/timeout.html')
 
-      
-def description(request):
-    return render(request, 'info/description.html')  
-
 @login_required(login_url='/user/auth/')
 def documents(request):
     return render(request, 'documents.html')
@@ -320,6 +305,5 @@ def documents(request):
 def profile(request):
     return render(request, 'profile.html')
 
-@login_required(login_url='/user/auth/')
 def succes_payment(request):
     return render(request, 'success-payment.html')

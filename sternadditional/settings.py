@@ -2,7 +2,7 @@ import os
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-SECRET_KEY = 'z#7y88c_g6imon+z&+_*eino!c%gid*f!0=v-hblq*kuc%+l0- '
+SECRET_KEY = ''
 DEBUG = True
 ALLOWED_HOSTS = []
 DATABASES = {
