@@ -14,12 +14,12 @@ class UserAnswerAdmin(admin.ModelAdmin):
     search_fields = ('student', 'answer', 'question')
     
 class AnswerAdmin(admin.ModelAdmin):
-    list_display = ('question', 'text', 'correct', )
+    #list_display = ('question', 'text')
     search_fields = ('text', )
-    list_editable = ('text', 'correct')
+    #list_editable = ('text', 'correct')
     
 class QuestionAdmin(admin.ModelAdmin):
-    list_display = ('question', 'class_number', )
+    list_display = ('question', 'event', )
     search_fields = ('question', )
 
 class CategoryEventAdmin(admin.ModelAdmin):
@@ -41,6 +41,7 @@ class EventAdmin(admin.ModelAdmin):
                 'data_event',
                 'is_active',
                 'price',
+                'classes'
             )
         }),
         ('Дополнительные опции',

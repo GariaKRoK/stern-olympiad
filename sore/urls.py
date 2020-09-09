@@ -3,8 +3,7 @@ from .views import *
 
 urlpatterns = [
     path('', redirect_index),
-    path('signup/', signup, name='signup'),
-    path('signin/', signin, name='signin'),
+    path('user/auth/', auth_user, name='auth_user'),
     path('payment/', payment, name='payment'),
     path('bad-payment/', bad_payment, name='bad_payment'),
     path('succes-payment/', succes_payment, name='succes_payment'),
@@ -16,7 +15,6 @@ urlpatterns = [
     re_path('(?P<category_slug>[\w-]+)/(?P<slug>[\w-]+)/final/', final, name='final'),
     re_path('(?P<category_slug>[\w-]+)/(?P<slug>[\w-]+)/time-to-start/', time_to_start, name='time_to_start'),
     re_path('(?P<category_slug>[\w-]+)/(?P<slug>[\w-]+)', start_olympiad, name='start_olympiad'),
-    path('completed/', completed, name='completed'),
     path('timeout/', timeout, name='timeout'),
     path('profile/', profile, name='profile'),
     path('documents/', documents, name='documents'),

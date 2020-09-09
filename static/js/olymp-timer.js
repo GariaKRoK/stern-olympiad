@@ -1,38 +1,3 @@
-
-function olympTimer() {
-    function getTimeRemaining(endtime) {
-        let t = Date.parse(endtime) - Date.parse(new Date())
-        let seconds = Math.floor((t / 1000) % 60)
-        let minutes = Math.floor((t / 1000 / 60) % 60)
-        let hours = Math.floor((t / (1000 * 60 * 60)) % 24);
-        let days = Math.floor(t / (1000 * 60 * 60 * 24));
-        return {
-            'total': t,
-            'days': days,
-            'hours': hours,
-            'minutes': minutes,
-            'seconds': seconds
-        };
-    }
-
-    function initializeClock(id, endtime) {
-        let timer = document.getElementById(id);
-        function updateClock() {
-            let t = getTimeRemaining(endtime);
-            timer.innerHTML =timer.innerHTML = `${t.hours} часов ${t.minutes} минут ${t.seconds} секунд`
-            if (t.total <= 0) {
-                clearInterval(timeinterval);
-            }
-        }
-        updateClock();
-        let timeInterval = setInterval(updateClock,1000)
-    }
-    initializeClock('olymp-timer', deadline);
-}
-olympTimer()
-
-
-
 $('.question-slider').slick({
     infinite:true,
     slidesToShow: 1,

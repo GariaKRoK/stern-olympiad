@@ -110,11 +110,15 @@
             <img id="start-modal-bg-1" src="{% static 'assets/images/start-modal-bg-1.svg' %}" alt="">
             <img id="start-modal-bg-2" src="{% static 'assets/images/start-modal-bg-2.svg' %}" alt="">
             <img id="start-modal-bg-3" src="{% static 'assets/images/start-modal-bg-3.svg' %}" alt="">
-            <div class="content">
-                <a id="start-modal-start" >да</a>
-                <p>Вы уверены?</p>
-                <a id="start-modal-close" >нет</a>
-            </div>
+            <form method="POST" action="{% url 'start_olympiad' category_slug=category_slug slug=slug %}">
+                {% csrf_token %}
+                <div class="content">
+                
+                    <a id="start-modal-start" ><input type="submit" name = "start-modal-start" value="Да"></a>
+                    <p>Вы уверены?</p>
+                    <a id="start-modal-close" >нет</a>
+                </div>
+            </form>
         </div>
     </div>
 </div>

@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load widget_tweaks %}
 {% block title %}Начало олимпиады - Штерн{% endblock %}
 {% block content %}
 <div class="dialog-layer index-layer">
@@ -85,75 +86,85 @@
         <div class="close"><img src="{% static 'images/plus.svg' %}" id="sign-modal-close" alt=""></div>
         <div class="modal">
             <div class="navigation">
-                <a class="active" id="signInSelector">Войти</a>
+                <a id="signInSelector">Войти</a>
                 <a id="signUpSelector">Регистрация</a>
             </div>
             <div class="forms" >
-                <form class="singInForm" action="" method="post" id="signInForm">
+                <form class="singInForm" action="/user/auth/" method="post" name="formtype" id="signInForm">
                     <label for="signInUserName">Имя пользователя</label>
+                    {% csrf_token %}
                     <br>
-                    <input type="text" id="signInUserName">
+                    <input type="text" name='username22' id="signInUserName">
                     <br>
                     <label for="signInPassword">Пароль</label>
                     <br>
-                    <input type="password" id="signInPassword">
-                    <div class="error-text">
-                        Неправильный пароль!
-                    </div>
+                    <input type="password" name='password22' id="signInPassword">
+                    {% if messages %}
+                        {% for message in messages %}
+                            <div class="error-text">
+                                {{ message }}
+                            </div>    
+                            {% endfor %}
+                    {% endif %}
                     <button type="submit">go!</button>
                 </form>
-                <form class="singInForm" action="" method="post" id="signUpForm">
+                <form class="singInForm" action="/user/auth/" method="post" name="formtype" id="signUpForm">
                     <div class="row">
+                        {% csrf_token %}
                         <div class="item">
-                            <label for="signUpUserName">Имя пользователя</label>
+                            <label for="signUpEmail">Логин</label>
                             <br>
-                            <input type="text" id="signUpUserName">
+                            <input type="text" name="username" id="signUpUserName">
                         </div>
                         <div class="item">
-                            <label for="signUpPassword">Пароль</label>
+                            <label for="signUpEmail">Пароль</label>
                             <br>
-                            <input type="text" id="signUpPassword">
+                            <input type="text" name="password" id="signUpPassword">
                         </div>
                     </div>
                     <div class="row">
                         <div class="item">
                             <label for="signUpEmail">Почта</label>
                             <br>
-                            <input type="text" id="signUpEmail">
+                            <input type="text" name="email" id="signUpEmail">
                         </div>
                         <div class="item">
                             <label for="signUpPhone">Номер телефона</label>
                             <br>
-                            <input type="text" id="signUpPhone">
+                            <input type="text" name="telephone_number" id="signUpPhone">
                         </div>
                     </div>
                     <div class="row">
                         <div class="item">
                             <label for="signUpName">Имя</label>
                             <br>
-                            <input type="text" id="signUpName">
+                            <input type="text" name="first_name" id="signUpName">
                         </div>
                         <div class="item">
                             <label for="signUpLastName">Фамилия</label>
                             <br>
-                            <input type="text" id="signUpLastName">
+                            <input type="text" name="last_name" id="signUpLastName">
                         </div>
                     </div>
                     <div class="row">
                         <div class="item">
                             <label for="schoolClass">Класс</label>
                             <br>
-                            <input type="text" id="schoolClass">
+                            <input type="text" name="class_number" id="schoolClass">
                         </div>
                         <div class="item">
                             <label for="school">Школа</label>
                             <br>
-                            <input type="text" id="school">
+                            <input type="text" name="name_school"id="school">
                         </div>
                     </div>
-                    <div class="error-text">
-                        Неправильный пароль!
-                    </div>
+                    {% if messages %}
+                        {% for message in messages %}
+                            <div class="error-text">
+                                {{ message }}
+                            </div>    
+                            {% endfor %}
+                    {% endif %}
                     <button type="submit">go!</button>
                 </form>
             </div>
