@@ -12,6 +12,7 @@ from hashlib import sha256
 from urllib.parse import urlencode, parse_qsl
 import json
 import datetime
+from django.contrib.auth import logout
 
 def auth_user(request):
     """
@@ -109,7 +110,7 @@ def payment(request):
                 'sum': settings.PRICE,
             }
             sign_string = separator.join(['{}'.format(value) for (key, value) in params.items()])
-            sign_string += separator + settings.SECRET_KEY
+            sign_string += separator + settings.SECRET_KEY_PAYMENT
             sign = sha256(sign_string.encode('utf-8')).hexdigest()
             params.update({'signature': sign})
             params_string = urlencode(params)
@@ -162,7 +163,7 @@ def time_to_unix(date):
 def time_to_start(request, category_slug, slug):
     time_start = Event.objects.get(slug=slug).data_event
     time_start_str = time_start.strftime("%Y-%m-%d %H:%M:%S")
-    if datetime.datetime.now().timestamp() > time_start.timestamp():
+    if datetime.datetime.now().timestamp() < time_start.timestamp():
         return render(request, 'timer.html', {'time_to_start': json.dumps(time_start_str)})
     else:
         return redirect(reverse('start_olympiad', kwargs={'category_slug': category_slug, 'slug': slug}))
@@ -174,10 +175,9 @@ def final(request, category_slug, slug):
 @login_required(login_url='/user/auth/')
 def start_olympiad(request, category_slug, slug):
     data = Event.objects.get(slug=slug)
-    id_first_question = Question.objects.filter(event__slug=slug)
-    print(id_first_question)
-    #if 'start-modal-start' in request.POST:
-    #    return redirect(reverse('question', kwargs={'category_slug': category_slug, 'slug': slug, 'id': id}))
+    id_question = Question.objects.filter(event__slug=slug).first()
+    if 'start-modal-start' in request.POST:
+        return redirect(reverse('question', kwargs={'category_slug': category_slug, 'slug': slug, 'id_question': id_question}))
     return render(request, 'start-olymp.html', locals())
 
 def create_answer(student, txt, qs):
@@ -188,7 +188,7 @@ def create_answer(student, txt, qs):
 
 
 @login_required(login_url='/user/auth/')
-def question(request, category_slug, slug, id):
+def question(request, category_slug, slug, id_question):
     return render(request, 'olymp.html')
 
 def index(request):
@@ -235,6 +235,10 @@ def olymp(request):
     qs.paid = True
     qs.save()
     return render(request, 'core/olymp.html')
+
+def signout(request):
+    logout(request)
+    return redirect('auth_user')
 
 def payment_check(request):
     """
@@ -303,6 +307,8 @@ def documents(request):
 
 @login_required(login_url='/user/auth/')
 def profile(request):
+    student = Student.objects.get(user=request.user.username)
+    print(student)
     return render(request, 'profile.html')
 
 def succes_payment(request):

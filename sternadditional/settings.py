@@ -2,7 +2,7 @@ import os
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-SECRET_KEY = ''
+SECRET_KEY = 'z#7y88c_g6imon+z&+_*eino!c%gid*f!0=v-hblq*kuc%+l0- '
 DEBUG = True
 ALLOWED_HOSTS = []
 DATABASES = {
@@ -99,10 +99,10 @@ MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 STATIC_ROOT = os.path.join(os.path.dirname(BASE_DIR), "staticfiles")
 
 #Payment olympiad
-MERCHANT_ID = ''
-#SECRET_KEY = ''
+SECRET_KEY_PAYMENT = 'c52da0fb7b7ea57784a8f7b88d37c288'
 PRICE = str(500)
 DESC = 'Оплата за олимпиаду'
+MERCHANT_ID = '239681-36aa9'
 
 #Email settings
 EMAIL_USE_TLS = True
