@@ -1,0 +1,147 @@
+
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Олимпиада Штерн - Личный кабинет{% endblock %}
+{% block content %}
+<div class="dialog-layer personal-dialog-layer">
+    <div class="content">
+        <div class="profile-wrapper">
+            <div class="left-side">
+                <div class="profile-short-info">
+                    <div class="profile-image"><img src="{% static 'images/penguin-profile.svg' %}" alt=""></div>
+                    <div class="profile-name">Абдуль злоебучий</div>
+                    <div class="settings-button"><a href=""><img src="{% static 'images/profile-image-1.svg' %}" alt="">Настройки</a></div>
+                </div>
+                <div class="profile-controll">
+                    <a href=""><img src="{% static 'images/profile-image-2.svg' %}" alt=""> назад</a>
+                    <a href=""><img src="{% static 'images/profile-image-3.svg' %}" alt=""> выйти</a>
+                </div>
+            </div>
+            <div class="profile-box">
+                <div class="top">
+                    <p>Статус оплаты:</p>
+                    <div class="image">
+                        <div class="bg">
+                            <img src="{% static 'images/payment-status-bg.svg' %}" alt="">
+                        </div>
+                        <div class="result">
+<!--                            <img src="assets/images/payment-status-bad.svg" alt="">-->
+                            <img src="{% static 'images/payment-status-suc.svg' %}" alt="">
+                        </div>
+                    </div>
+                </div>
+                <form action="" method="post">
+                    <div class="row">
+                        <label for="profileUserName">Имя пользователя</label>
+                    </div>
+                    <div class="row">
+                        <input type="text" id="profileUserName">
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <label for="profileEMail">Почта</label>
+                        </div>
+                        <div class="col">
+                            <label for="profilePhone">Номер телефона</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <input type="text" id="profileEMail">
+                        <input type="text" id="profilePhone">
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <label for="profileName">Имя</label>
+                        </div>
+                        <div class="col">
+                            <label for="profileLastname">Фамилия</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <input type="text" id="profileName">
+                        <input type="text" id="profileLastname">
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <label for="profileClass">Класс</label>
+                        </div>
+                        <div class="col">
+                            <label for="profileSchool">Школа</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <input type="text" id="profileClass">
+                        <input type="text" id="profileSchool">
+                    </div>
+                    <button>Изменить</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="template-wrap personal-area-layer">
+    <div class="content-layer">
+        <header class="header" id="header">
+            <ul class="header-nav">
+                <li class="header-item">
+                    <a class="header-link" href="">
+                        Пока ждем начала
+                        <img class="arrow" src="{% static 'images/arrow-1.svg' %}" alt="">
+                    </a>
+                </li>
+                <li class="header-item">
+                    <a class="header-link" href="">
+                        Об олимпиаде
+                    </a>
+                </li>
+                <li class="header-item">
+                    <a class="header-link" href="">
+                        Юзернейм
+                    </a>
+                </li>
+            </ul>
+            <div class="dots-image">
+                <img src="{% static 'images/bg-layer-6.svg' %}" alt="">
+            </div>
+        </header>
+
+        <div class="site-visit">
+            <p>Посетите наш сайт :)</p>
+            <p><a class="site-visit-link" href="">www.schoolofsciences.ru</a></p>
+        </div>
+        <div class="social-links">
+            <ul class="social-list">
+                <li class="social-item">
+                    <a class="social-link" href="#">
+                        <img class="social-image vk" src="{% static 'images/social-icon-vk.svg' %}" alt="">
+                    </a>
+                </li>
+                <li class="social-item">
+                    <a class="social-link" href="#">
+                        <img class="social-image instagram" src="{% static 'images/social-icon-instagram.svg' %}" alt="">
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+
+<footer class="footer " id="footer">
+    <div class="content">
+        <p>
+            <a href="#">
+                Политика конфиденциальности
+            </a>
+        </p>
+        <p>
+            <a href="#">
+                Соглашение
+            </a>
+        </p>
+    </div>
+    <div class="copyright">
+        <p>COPYRIGHT &#169;2020 <span>Школа точных наук "ШТЕРН"</span></p>
+    </div>
+</footer>
+{% endblock content %}

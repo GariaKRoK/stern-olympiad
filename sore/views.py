@@ -11,7 +11,7 @@ from .models import *
 from hashlib import sha256
 from urllib.parse import urlencode, parse_qsl
 import json
-
+from datetime import datetime
 def signin(request):
     """
         signin view
@@ -106,7 +106,6 @@ def signup(request):
     return render(request, 'user/signup.html', locals())
 
 
-@login_required(login_url='/signin/')
 def payment(request):
     """
 
@@ -126,28 +125,27 @@ def payment(request):
     :return sign to unitpay server
     """
     if request.method == 'POST':
-        if request.user.student.paid:
-            return redirect('olymp')
-        else:
-            account = request.user.username
-            separator = '{up}'
-            params = {
-                'account': account,
-                'desc': settings.DESC,
-                'sum': settings.PRICE,
-            }
-            sign_string = separator.join(['{}'.format(value) for (key, value) in params.items()])
-            sign_string += separator + settings.SECRET_KEY
-            sign = sha256(sign_string.encode('utf-8')).hexdigest()
-            params.update({'signature': sign})
-            params_string = urlencode(params)
-            url = 'https://unitpay.ru/pay/{}?{}'
-            return redirect(url.format(settings.MERCHANT_ID, params_string))
-    return render(request, 'payment/payment.html', locals())
+        #if request.user.student.paid:
+        #    return redirect('olymp')
+        #else:
+        account = request.user.username
+        separator = '{up}'
+        params = {
+            'account': account,
+            'desc': settings.DESC,
+            'sum': settings.PRICE,
+        }
+        sign_string = separator.join(['{}'.format(value) for (key, value) in params.items()])
+        sign_string += separator + settings.SECRET_KEY
+        sign = sha256(sign_string.encode('utf-8')).hexdigest()
+        params.update({'signature': sign})
+        params_string = urlencode(params)
+        url = 'https://unitpay.ru/pay/{}?{}'
+        return redirect(url.format(settings.MERCHANT_ID, params_string))
+    return render(request, 'payment.html', locals())
 
 
 
-@login_required(login_url='/signin/')
 def tests(request):
     """
     tests view
@@ -180,6 +178,25 @@ def plus_balls(id, qs, user, txt):
         plus.save()
     return redirect('tests')
 
+
+def time_to_unix(date):
+    return datetime.strptime(date, '%Y-%b-%d %I:%M')
+
+def time_to_start(request, category_slug, slug):
+    time_start = Event.objects.get(slug=slug).data_event
+    time_start_str = time_start.strftime("%Y-%m-%d %H:%M:%S")
+    #if time_to_unix(datetime.now()) > time_to_unix(time_start):
+    return render(request, 'timer.html', {'time_to_start': json.dumps(time_start_str)})
+    #else:
+    #    return redirect('olympiad', kwargs={'category_slug': category_slug, 'slug': slug})
+
+def final(request, category_slug, slug):
+    return render(request, 'final.html')
+
+def start_olympiad(request, category_slug, slug):
+    data = Event.objects.get(slug=slug)
+    return render(request, 'start-olymp.html', locals())
+
 def create_answer(student, txt, qs):
     new = UserAnswer.objects.create(student=student, 
                                     answer=txt,
@@ -187,7 +204,12 @@ def create_answer(student, txt, qs):
     new.save()
 
 
-@login_required(login_url='/signin/')
+def question(request, category_slug, slug, id):
+    return render(request, 'olymp.html')
+
+def index(request):
+    return render(request, 'index.html')
+
 def answer(request, id):
     if request.user.student.paid == True:
         question = Question.objects.get(id=id)
@@ -218,7 +240,6 @@ def answer(request, id):
         return redirect('payment')
 
 
-@login_required(login_url='/signin/')
 def olymp(request):
     """
         if user visit this url,
@@ -230,7 +251,6 @@ def olymp(request):
     return render(request, 'core/olymp.html')
 
 
-@login_required(login_url='/signin/')
 def completed(request):
     #will be called if user completed olympiad
     return render(request, 'info/completed.html')
@@ -282,44 +302,28 @@ def payment_check(request):
     else:
         return json.dumps({'message': 'Метод не поддерживается'})
 
-@login_required(login_url='/signin/')
-def failed_payment(request):
+def bad_payment(request):
     """
     :param request: standard django param
 
         will be called if the UnitPay server
         response on the board is negative
     """
-    return render(request, 'payment/failed_payment.html')
+    return render(request, 'bad-payment.html')
 
-@login_required(login_url='/signin/')
 def timeout(request):
     #will be called if the time of your olympiad is over
     return render(request, 'info/timeout.html')
 
-#license information and other
-def contacts(request):
-    return render(request, 'info/contacts.html')
-    
-def agreement(request):
-    return render(request, 'info/agreement.html')    
-    
+      
 def description(request):
     return render(request, 'info/description.html')  
-    
-def confidentiality(request):
-    return render(request, 'info/confidentiality.html')
 
-#error views - 400, 403, 404, 500 
-#look at handlers in sternadditional/urls
-def not_found_view(request, exception):
-    return render(request, 'errors/404.html')
-    
-def error_view(request):
-    return render(request, 'errors/500.html')
-    
-def permission_denied_view(request, exception):
-    return render(request, 'errors/403.html')
-    
-def bad_request_view(request, exception):
-    return render(request, 'errors/400.html')
+def documents(request):
+    return render(request, 'documents.html')
+
+def profile(request):
+    return render(request, 'profile.html')
+
+def succes_payment(request):
+    return render(request, 'success-payment.html')

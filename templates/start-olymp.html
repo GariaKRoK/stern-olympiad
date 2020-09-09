@@ -1,0 +1,132 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Олимпиада Штерн - Личный кабинет{% endblock %}
+{% block content %}
+<div class="dialog-layer index-layer">
+    <div class="content">
+        <div class="box">
+            <div class="text index-heading">
+                <div class="dialog-image">
+                    <img src="{% static 'images/penguin-2.svg' %}" alt="">
+                </div>
+                <div class="heading ">
+                    <a id="start-modal-button">
+                        <span>Начать</span>
+                        <br>
+                        <span>Олимпиаду</span>
+                    </a>
+                </div>
+                <div class="description">
+                    <p>
+                        <span>Никогда не поздно повторить</span><br>
+                        <span><a href="">Правила олимпиады</a></span>
+                    </p>
+                </div>
+            </div>
+            <img src="{% static 'images/start-olymp-box.svg' %}" alt="">
+        </div>
+    </div>
+</div>
+
+<div class="bg-layer">
+    <div class="content">
+        <img class="bg-timer-layer-item" id="bg-timer-layer-item-1" src="{% static 'images/bg-layer-1.svg' %}" alt="">
+        <img class="bg-timer-layer-item" id="bg-timer-layer-item-2" src="{% static 'images/bg-layer-2.svg' %}" alt="">
+        <img class="bg-timer-layer-item" id="bg-timer-layer-item-3" src="{% static 'images/bg-layer-3.svg' %}" alt="">
+        <img class="bg-timer-layer-item" id="bg-timer-layer-item-4" src="{% static 'images/bg-layer-4.svg' %}" alt="">
+        <img class="bg-timer-layer-item" id="bg-timer-layer-item-5" src="{% static 'images/bg-layer-5.svg' %}" alt="">
+        <img class="bg-timer-layer-item" id="bg-timer-layer-item-6" src="{% static 'images/bg-layer-3.svg' %}" alt="">
+    </div>
+</div>
+<div class="template-wrap index-layer">
+    <div class="content-layer">
+        <header class="header" id="header">
+            <ul class="header-nav">
+                <li class="header-item">
+                    Пока ждем начала
+                    <img class="arrow" src="{% static 'images/arrow-1.svg' %}" alt="">
+                </li>
+                <li class="header-item">
+                    <a class="header-link" href="">
+                        Об олимпиаде
+                    </a>
+                </li>
+                <li class="header-item">
+                    <a class="header-link" href="">
+                        Юзернейм
+                    </a>
+                </li>
+            </ul>
+            <div class="dots-image">
+                <img src="{% static 'images/bg-layer-6.svg' %}" alt="">
+            </div>
+        </header>
+
+        <div class="site-visit">
+            <p>Посетите наш сайт :)</p>
+            <p><a class="site-visit-link" href="">www.schoolofsciences.ru</a></p>
+        </div>
+        <div class="social-links">
+            <ul class="social-list">
+                <li class="social-item">
+                    <a class="social-link" href="#">
+                        <img class="social-image vk" src="{% static 'images/social-icon-vk.svg' %}" alt="">
+                    </a>
+                </li>
+                <li class="social-item">
+                    <a class="social-link" href="#">
+                        <img class="social-image instagram" src="{% static 'images/social-icon-instagram.svg' %}" alt="">
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<footer class="footer" id="footer">
+    <div class="footer-images">
+        <img class="stripes" src="{% static 'images/bg-layer-7.svg' %}" alt="">
+    </div>
+    <div class="content">
+        <p>
+            <a href="#">
+                Политика конфиденциальности
+            </a>
+        </p>
+        <p>
+            <a href="#">
+                Соглашение
+            </a>
+        </p>
+    </div>
+    <div class="copyright">
+        <p>COPYRIGHT &#169;2020 <span>Школа точных наук "ШТЕРН"</span></p>
+    </div>
+
+</footer>
+<div class="start-modal">
+    <div class="box" id="start-modal-bg">
+        <div class="wrapper">
+            <img id="start-modal-bg-1" src="{% static 'assets/images/start-modal-bg-1.svg' %}" alt="">
+            <img id="start-modal-bg-2" src="{% static 'assets/images/start-modal-bg-2.svg' %}" alt="">
+            <img id="start-modal-bg-3" src="{% static 'assets/images/start-modal-bg-3.svg' %}" alt="">
+            <div class="content">
+                <a id="start-modal-start" >да</a>
+                <p>Вы уверены?</p>
+                <a id="start-modal-close" >нет</a>
+            </div>
+        </div>
+    </div>
+</div>
+<!--<div id="preloader"></div>-->
+<script src="{% static 'node_modules/lottie-web/build/player/lottie.js' %}"></script>
+<script>
+    lottie.loadAnimation({
+        container: document.getElementById('preloader'),
+        renderer : 'svg',
+        loop     : true,
+        autoplay : true,      
+        path     : '../static/animations/data.json',
+    });
+</script>
+{% endblock content %}

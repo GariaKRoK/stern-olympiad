@@ -7,22 +7,35 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<link rel="shortcut icon" href="{% static 'images/favikon.png' %}" type="image/png" width='16' height='16'>
 		<title>{% block title %}{% endblock %}</title>
-		<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
-		<link href="https://fonts.googleapis.com/css?family=Lato&display=swap" rel="stylesheet">
-		<link rel="stylesheet" type="text/css" href="{% static 'style/fonts.css' %}">
-		<link rel="stylesheet" type="text/css" href="{% static 'style/main.css' %}">
-		<link rel="stylesheet" type="text/css" href="{% static 'style/media.css' %}">
-		<link rel="stylesheet" type="text/css" href="{% static 'style/modal.css' %}">
+		<link rel="stylesheet" type="text/css" href="{% static 'css/animate.css' %}">
+		<link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
+		<link rel="stylesheet" type="text/css" href="{% static 'css/media.css' %}">
+		<link rel="stylesheet" type="text/css" href="{% static 'css/modal.css' %}">
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
-	
+		<script src="//code-ya.jivosite.com/widget/7l9qiHZFEA" async></script>
 		<script src="https://kit.fontawesome.com/e1d2fbc59f.js" crossorigin="anonymous"></script>
+		<link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
+		<!--<div id="preloader"></div>-->
+		<script>
+		    lottie.loadAnimation({
+		        container: document.getElementById('preloader'),
+		        renderer : 'svg',
+		        loop     : true,
+		        autoplay : true,
+		        path     : 'assets/animations/data.json',
+		    });
+		</script>
 	</head>
 	<body>
-		{% include 'header.html' %}
 			{% block content %}
 			{% endblock %}
-		{% include 'footer.html' %}
-		<script src="{% static 'js/main.js' %}"></script>
-	    <script src="{% static 'js/id68.js' %}"></script>
+			<script src="{% static 'js/jquery-3.5.1.min.js' %}"></script>
+			<script src="{% static 'node_modules/lottie-web/build/player/lottie.js' %}"></script>
+			<script type="text/javascript" src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+		<script src="{% static 'js/jquery.maskedinput.js' %}"></script>
+		<script src="{% static 'js/bodymovin.min.js' %}"></script>
+		<script src="{% static 'js/index.js' %}"></script>
+		<script src="{% static 'js/olymp-timer.js' %}"></script>
+			<script src="{% static 'js/main.js' %}"></script>
 	</body>
 </html>
