@@ -9,12 +9,12 @@
             <div class="left-side">
                 <div class="profile-short-info">
                     <div class="profile-image"><img src="{% static 'images/penguin-profile.svg' %}" alt=""></div>
-                    <div class="profile-name">Абдуль злоебучий</div>
+                    <div class="profile-name">{{ request.user.username }}</div>
                     <div class="settings-button"><a href=""><img src="{% static 'images/profile-image-1.svg' %}" alt="">Настройки</a></div>
                 </div>
                 <div class="profile-controll">
                     <a href=""><img src="{% static 'images/profile-image-2.svg' %}" alt=""> назад</a>
-                    <a href=""><img src="{% static 'images/profile-image-3.svg' %}" alt=""> выйти</a>
+                    <a href="{% url 'signout' %}"><img src="{% static 'images/profile-image-3.svg' %}" alt=""> выйти</a>
                 </div>
             </div>
             <div class="profile-box">
@@ -35,7 +35,7 @@
                         <label for="profileUserName">Имя пользователя</label>
                     </div>
                     <div class="row">
-                        <input type="text" id="profileUserName">
+                        <input type="text" id="profileUserName" value="{{ }}">
                     </div>
                     <div class="row">
                         <div class="col">
