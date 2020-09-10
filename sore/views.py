@@ -62,11 +62,10 @@ def auth_user(request):
                 class_number_get = ClassNumber.objects.get(name=class_number)
                 student = Student.objects.create(user=new_user, telephone_number=telephone_number,
                                                     class_number=class_number_get, name_school=name_school)
-                registration_text = "Поздравляем Вас с регистрацией на олимпиаду! \nНиже представлены логин и пароль от Вашего аккаунта. Просим, не сообщать никому данные. \nВаш логин: {0} \nВаш пароль: {1} \nЛюбые возникшие вопросы Вы можете задать в чате технической поддержки на сайте.\nУспешного написания олимпиады!\nС уважением, Школа Точных Наук "Штерн"!".format(request.POST.get('username'), request.POST.get('password'))
-                
+                registration_text = "Поздравляем Вас с регистрацией на олимпиаду! \nНиже представлены логин и пароль от Вашего аккаунта. Просим, не сообщать никому данные. \nВаш логин: {0} \nВаш пароль: {1} \nЛюбые возникшие вопросы Вы можете задать в чате технической поддержки на сайте.\nУспешного написания олимпиады!\nС уважением, Школа Точных Наук 'Штерн'!".format(request.POST.get('username'), request.POST.get('password'))
                 send_mail(
                     'Регистрация на онлайн олимпиаду',
-                    str(registration_text),
+                    registration_text,
                     settings.EMAIL_HOST_USER,
                     [request.POST.get('email'), ],
                     fail_silently=False
