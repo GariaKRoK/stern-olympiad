@@ -310,8 +310,30 @@ def documents(request):
 
 @login_required(login_url='/user/auth/')
 def profile(request):
-    student = Student.objects.get(user=request.user.username)
-    return render(request, 'profile.html')
+    student = Student.objects.get(user=request.user)
+    if request.method == "POST":
+        if request.POST.get('class_number') and student.class_number != request.POST.get('class_number'):
+            student.class_number = ClassNumber.objects.get(name=request.POST.get('class_number'))
+            student.save()
+        if request.POST.get('username') and student.user.username != request.POST.get('username'):
+            student.user.username = request.POST.get('username')
+            student.save()
+        if request.POST.get('email') and student.user.email != request.POST.get('email'):
+            student.user.email = request.POST.get('email')
+            student.save()
+        if request.POST.get('telephone_number') and student.telephone_number != request.POST.get('telephone_number'):
+            student.telephone_number = request.POST.get('telephone_number')
+            student.save()
+        if request.POST.get('first_name') and student.user.first_name != request.POST.get('first_name'):
+            student.user.first_name = request.POST.get('first_name')
+            student.save()
+        if request.POST.get('last_name') and student.user.last_name != request.POST.get('last_name'):
+            student.user.last_name = request.POST.get('last_name')
+            student.save()
+        if request.POST.get('name_school') and student.name_school != request.POST.get('name_school'):
+            student.name_school = request.POST.get('name_school')
+            student.save()
+    return render(request, 'profile.html', locals())
 
 def succes_payment(request):
     return render(request, 'success-payment.html')

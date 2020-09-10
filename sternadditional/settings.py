@@ -100,16 +100,16 @@ STATIC_ROOT = os.path.join(os.path.dirname(BASE_DIR), "staticfiles")
 
 #Payment olympiad
 SECRET_KEY_PAYMENT = 'c52da0fb7b7ea57784a8f7b88d37c288'
-PRICE = str(500)
+PRICE = str(10)
 DESC = 'Оплата за олимпиаду'
 MERCHANT_ID = '239681-36aa9'
 
 #Email settings
 EMAIL_USE_TLS = True
 EMAIL_PORT = 587
-EMAIL_HOST =  'smtp.gmail.com'
-EMAIL_HOST_USER = 'shtern.olymp@gmail.com'
-EMAIL_HOST_PASSWORD = 'shternolymP1'
+EMAIL_HOST =  'smtp.beget.com'
+EMAIL_HOST_USER = 'support@shtern-olymp.ru'
+EMAIL_HOST_PASSWORD = 'schoolofsciences1S'
 
 DICT_LINK_TIMER = {'1':'https://megatimer.ru/get/6367f9dffd3a5ed7dd51989ef0f17f11.js',
                         '2': 'https://megatimer.ru/get/6367f9dffd3a5ed7dd51989ef0f17f11.js',
