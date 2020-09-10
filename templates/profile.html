@@ -30,12 +30,13 @@
                         </div>
                     </div>
                 </div>
-                <form action="" method="post">
+                <form action="{% url 'profile' %}" method="post">
+                    {% csrf_token %}
                     <div class="row">
                         <label for="profileUserName">Имя пользователя</label>
                     </div>
                     <div class="row">
-                        <input type="text" id="profileUserName" value="{{ }}">
+                        <input type="text" id="profileUserName" name="username" value="{{ student.user.username }}">
                     </div>
                     <div class="row">
                         <div class="col">
@@ -46,8 +47,8 @@
                         </div>
                     </div>
                     <div class="row">
-                        <input type="text" id="profileEMail">
-                        <input type="text" id="profilePhone">
+                        <input type="text" id="profileEMail" name="email" value="{{ student.user.email }}">
+                        <input type="text" id="profilePhone" name="telephone_number" value="{{ student.telephone_number }}">
                     </div>
                     <div class="row">
                         <div class="col">
@@ -58,8 +59,8 @@
                         </div>
                     </div>
                     <div class="row">
-                        <input type="text" id="profileName">
-                        <input type="text" id="profileLastname">
+                        <input type="text" name="first_name" id="profileName" value="{{ student.user.first_name}}">
+                        <input type="text" name="last_name" id="profileLastname" value="{{ student.user.last_name }}">
                     </div>
                     <div class="row">
                         <div class="col">
@@ -70,10 +71,10 @@
                         </div>
                     </div>
                     <div class="row">
-                        <input type="text" id="profileClass">
-                        <input type="text" id="profileSchool">
+                        <input type="text" name="class_number" id="profileClass" value="{{ student.class_number}}">
+                        <input type="text" name="name_school" id="profileSchool" value="{{ student.name_school}}">
                     </div>
-                    <button>Изменить</button>
+                    <button type="submit">Изменить</button>
                 </form>
             </div>
         </div>
