@@ -33,48 +33,53 @@ def auth_user(request):
         else:
             if User.objects.filter(username=request.POST.get('username')).exists():
                     messages.info(request, 'Логин уже занят')
+            elif User.objects.filter(email=request.POST.get('email')).exists():
+                messages.info(request, 'Электронная почта уже занята')
+            elif not request.POST.get('email') or request.POST.get('email') == " ":
+                messages.info(request, 'Заполните поле электронной почта')
+            elif not request.POST.get('username') or request.POST.get('username') == " ":
+                messages.info(request, 'Заполните поле логин')
+            elif not request.POST.get('telephone_number'):
+                messages.info(request, 'Заполните поле телефонный номер')
+            elif not request.POST.get('password') or request.POST.get('password') == " ":
+                messages.info(request, 'Заполните поле пароль')
+            elif not request.POST.get('first_name') or request.POST.get('first_name') == " ":
+                messages.info(request, 'Заполните поле имя')
+            elif not request.POST.get('last_name') or request.POST.get('last_name') == " ":
+                messages.info(request, 'Заполните поле фамилия')
+            #elif not request.POST.get('class_number') or request.POST.get('class_number') == " " or request.POST.get('class_number') not in range(1,12):
+            #    messages.info(request, 'Заполните поле номер класса. Вводить нужно только сам номер(цифрой)')
+            elif not request.POST.get('name_school') or request.POST.get('name_school') == " ":
+                messages.info(request, 'Заполните поле название школы')
             else:
-                if User.objects.filter(email=request.POST.get('email')).exists():
-                    messages.info(request, 'Электронная почта уже занята')
-                else:
-                    new_user = User.objects.create(username=request.POST.get('username'),
-                                                   email=request.POST.get('email'), first_name=request.POST.get('first_name'),
-                                                   last_name=request.POST.get('last_name'), password=request.POST.get('password'))
-
-                    #login(request, user, backend='django.contrib.auth.backends.ModelBackend')            
-                    user = User.objects.get(username=request.POST.get('username'))
-                    telephone_number = request.POST.get('telephone_number')
-                    class_number = request.POST.get('class_number')
-                    name_school = request.POST.get('name_school')
-                    class_number_get = ClassNumber.objects.get(name=class_number)
-                    student = Student.objects.create(user=new_user, telephone_number=telephone_number,
-                                                        class_number=class_number_get, name_school=name_school)
-                    
-                    with open('send.txt', 'r+', encoding='UTF-8') as f:
-                        old_file_content = f.read() # read everything in the file
-
-                        #insert data into txt file
-                        new_file_content = old_file_content.format(
-                                                    str(request.POST.get('username')),
-                                                    str(request.POST.get('password')))
-
-                        #send mail with password and username to new user
-                        send_mail(
-                            'Регистрация на онлайн олимпиаду',
-                            str(new_file_content),
-                            settings.EMAIL_HOST_USER,
-                            [request.POST.get('email'), ],
-                            fail_silently=False
-                            )
-                    
-                    event_for_user = Event.objects.get(classes__name=class_number_get)
-                    new_user_in_event = UserInEvent.objects.create(
-                                            user=student,
-                                            event=event_for_user,
-                                            paid=False, active=True, date_registration=datetime.datetime.now())
-                    if user is not None:
-                        auth.login(request, user)
-                    return redirect('payment')
+                new_user = User.objects.create(username=request.POST.get('username'),
+                                               email=request.POST.get('email'), first_name=request.POST.get('first_name'),
+                                               last_name=request.POST.get('last_name'), password=request.POST.get('password'))
+                #login(request, user, backend='django.contrib.auth.backends.ModelBackend')            
+                user = User.objects.get(username=request.POST.get('username'))
+                telephone_number = request.POST.get('telephone_number')
+                class_number = request.POST.get('class_number')
+                name_school = request.POST.get('name_school')
+                class_number_get = ClassNumber.objects.get(name=class_number)
+                student = Student.objects.create(user=new_user, telephone_number=telephone_number,
+                                                    class_number=class_number_get, name_school=name_school)
+                new_file_content = settings.REGISTRATION_TEXT.format(request.POST.get('username'), request.POST.get('password'))
+                send_mail(
+                    'Регистрация на онлайн олимпиаду',
+                    str(new_file_content),
+                    settings.EMAIL_HOST_USER,
+                    [request.POST.get('email'), ],
+                    fail_silently=False
+                    )
+                
+                event_for_user = Event.objects.get(classes__name=class_number_get)
+                new_user_in_event = UserInEvent.objects.create(
+                                        user=student,
+                                        event=event_for_user,
+                                        paid=False, active=True, date_registration=datetime.datetime.now())
+                if user is not None:
+                    auth.login(request, user)
+                return redirect('payment')
     return render(request, 'index.html', locals())
 
 def redirect_index(request):
