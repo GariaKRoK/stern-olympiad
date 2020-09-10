@@ -24,9 +24,6 @@ def auth_user(request):
             username = request.POST.get('username22')
             password = request.POST.get('password22')
             user = auth.authenticate(username=username, password=password)
-            print(username)
-            print(password)
-            print(user)
             if user is not None:
                 auth.login(request, user)
                 return redirect('payment')
@@ -58,7 +55,6 @@ def auth_user(request):
                 new_user = User.objects.create_user(username=request.POST.get('username'),
                                                email=request.POST.get('email'), first_name=request.POST.get('first_name'),
                                                last_name=request.POST.get('last_name'), password=request.POST.get('password'))
-                #login(request, user, backend='django.contrib.auth.backends.ModelBackend')            
                 user = User.objects.get(username=request.POST.get('username'))
                 telephone_number = request.POST.get('telephone_number')
                 class_number = request.POST.get('class_number')
@@ -66,14 +62,15 @@ def auth_user(request):
                 class_number_get = ClassNumber.objects.get(name=class_number)
                 student = Student.objects.create(user=new_user, telephone_number=telephone_number,
                                                     class_number=class_number_get, name_school=name_school)
-                registration_text = "Здравствуйте! \nВы зарегистрировались на онлайн-олимпиаду Школы Точных Наук ШТЕРН \nВаш логин: {0} \nВаш пароль: {1} \nНАПОМИНАЕМ, что начало олимпиады Вы можете выбрать тогда, когда Вам будет удобно.\nЖелаем успешного прохождения олимпиады!\nЖдем Вас в стенах нашей школы. \nС уважением, Школа Точных Наук ШТЕРН. stern".format(request.POST.get('username'), request.POST.get('password'))
-                #send_mail(
-                #    'Регистрация на онлайн олимпиаду',
-                #    str(registration_text),
-                #    settings.EMAIL_HOST_USER,
-                #    [request.POST.get('email'), ],
-                #    fail_silently=False
-                #    )
+                registration_text = "Поздравляем Вас с регистрацией на олимпиаду! \nНиже представлены логин и пароль от Вашего аккаунта. Просим, не сообщать никому данные. \nВаш логин: {0} \nВаш пароль: {1} \nЛюбые возникшие вопросы Вы можете задать в чате технической поддержки на сайте.\nУспешного написания олимпиады!\nС уважением, Школа Точных Наук "Штерн"!".format(request.POST.get('username'), request.POST.get('password'))
+                
+                send_mail(
+                    'Регистрация на онлайн олимпиаду',
+                    str(registration_text),
+                    settings.EMAIL_HOST_USER,
+                    [request.POST.get('email'), ],
+                    fail_silently=False
+                    )
                 
                 event_for_user = Event.objects.get(classes__name=class_number_get)
                 new_user_in_event = UserInEvent.objects.create(
@@ -309,14 +306,12 @@ def timeout(request):
     #will be called if the time of your olympiad is over
     return render(request, 'info/timeout.html')
 
-@login_required(login_url='/user/auth/')
 def documents(request):
     return render(request, 'documents.html')
 
 @login_required(login_url='/user/auth/')
 def profile(request):
     student = Student.objects.get(user=request.user.username)
-    print(student)
     return render(request, 'profile.html')
 
 def succes_payment(request):
