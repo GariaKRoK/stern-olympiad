@@ -47,7 +47,7 @@ def auth_user(request):
                 messages.info(request, 'Заполните поле имя')
             elif not request.POST.get('last_name') or request.POST.get('last_name') == " ":
                 messages.info(request, 'Заполните поле фамилия')
-            elif not request.POST.get('class_number') or request.POST.get('class_number'):
+            elif not request.POST.get('class_number') or request.POST.get('class_number') == " ":
                 messages.info(request, 'Заполните поле номер класса. Вводить нужно только сам номер(цифрой)')
             elif not request.POST.get('name_school') or request.POST.get('name_school') == " ":
                 messages.info(request, 'Заполните поле название школы')
