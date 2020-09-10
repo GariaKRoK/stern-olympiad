@@ -24,6 +24,9 @@ def auth_user(request):
             username = request.POST.get('username22')
             password = request.POST.get('password22')
             user = auth.authenticate(username=username, password=password)
+            print(username)
+            print(password)
+            print(user)
             if user is not None:
                 auth.login(request, user)
                 return redirect('payment')
@@ -47,12 +50,12 @@ def auth_user(request):
                 messages.info(request, 'Заполните поле имя')
             elif not request.POST.get('last_name') or request.POST.get('last_name') == " ":
                 messages.info(request, 'Заполните поле фамилия')
-            #elif not request.POST.get('class_number') or request.POST.get('class_number') == " " or request.POST.get('class_number') not in range(1,12):
-            #    messages.info(request, 'Заполните поле номер класса. Вводить нужно только сам номер(цифрой)')
+            elif not request.POST.get('class_number') or request.POST.get('class_number'):
+                messages.info(request, 'Заполните поле номер класса. Вводить нужно только сам номер(цифрой)')
             elif not request.POST.get('name_school') or request.POST.get('name_school') == " ":
                 messages.info(request, 'Заполните поле название школы')
             else:
-                new_user = User.objects.create(username=request.POST.get('username'),
+                new_user = User.objects.create_user(username=request.POST.get('username'),
                                                email=request.POST.get('email'), first_name=request.POST.get('first_name'),
                                                last_name=request.POST.get('last_name'), password=request.POST.get('password'))
                 #login(request, user, backend='django.contrib.auth.backends.ModelBackend')            
@@ -64,13 +67,13 @@ def auth_user(request):
                 student = Student.objects.create(user=new_user, telephone_number=telephone_number,
                                                     class_number=class_number_get, name_school=name_school)
                 registration_text = "Здравствуйте! \nВы зарегистрировались на онлайн-олимпиаду Школы Точных Наук ШТЕРН \nВаш логин: {0} \nВаш пароль: {1} \nНАПОМИНАЕМ, что начало олимпиады Вы можете выбрать тогда, когда Вам будет удобно.\nЖелаем успешного прохождения олимпиады!\nЖдем Вас в стенах нашей школы. \nС уважением, Школа Точных Наук ШТЕРН. stern".format(request.POST.get('username'), request.POST.get('password'))
-                send_mail(
-                    'Регистрация на онлайн олимпиаду',
-                    str(registration_text),
-                    settings.EMAIL_HOST_USER,
-                    [request.POST.get('email'), ],
-                    fail_silently=False
-                    )
+                #send_mail(
+                #    'Регистрация на онлайн олимпиаду',
+                #    str(registration_text),
+                #    settings.EMAIL_HOST_USER,
+                #    [request.POST.get('email'), ],
+                #    fail_silently=False
+                #    )
                 
                 event_for_user = Event.objects.get(classes__name=class_number_get)
                 new_user_in_event = UserInEvent.objects.create(
