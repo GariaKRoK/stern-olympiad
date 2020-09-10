@@ -4,7 +4,6 @@ from django import forms
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 
-
 class SignUpStudentForm(forms.ModelForm):
     telephone_number = forms.CharField(max_length=11, help_text='Телефонный номер')
     class_number = forms.ModelChoiceField(queryset=ClassNumber.objects.all(), help_text='Год обучения')
