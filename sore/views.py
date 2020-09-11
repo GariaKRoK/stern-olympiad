@@ -190,10 +190,19 @@ def create_answer(student, txt, qs):
                                     question=qs)
     new.save()
 
-
+def time_olymp(user, event):
+    end_time = datetime.datetime.now() + datetime.timedelta(hours=1, minutes=30)
+    time_start_end_olymp = StartOlymp.objects.create(user=user,
+                            event=event, start_time=datetime.datetime.now(),
+                            end_time=end_time)
+    return end_time
 @login_required(login_url='/user/auth/')
 def question(request, category_slug, slug, id_question):
-    return render(request, 'olymp.html')
+    questions = Question.objects.filter(event__slug=slug)
+    event = Event.objects.get(slug=slug)
+    start_end_olymp = time_olymp(user=request.user, event=event)
+    
+    return render(request, 'olymp.html', locals())
 
 def index(request):
     return render(request, 'index.html')

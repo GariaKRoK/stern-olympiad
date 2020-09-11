@@ -125,3 +125,13 @@ class UserAnswer(models.Model):
     class Meta:
         verbose_name = 'Ответ пользователя'
         verbose_name_plural = 'Ответы пользователей'
+
+class StartOlymp(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, verbose_name='Пользователь')
+    event = models.ForeignKey(Event, on_delete=models.CASCADE, default=1, verbose_name='Мероприятие')
+    start_time = models.DateTimeField(verbose_name='Время ', null=True)
+    end_time = models.DateTimeField(verbose_name='Время ', null=True, blank=True)
+
+    class Meta:
+        verbose_name = 'Время начала и окончания пользователем олимпиады'
+        verbose_name_plural = 'Время начала и окончания пользователями олимпиады'
