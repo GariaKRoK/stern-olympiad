@@ -40,8 +40,8 @@
                     </a>
                 </li>
                 <li class="header-item">
-                    <a class="header-link" href="">
-                        Юзернейм
+                    <a class="header-link" href="{% url 'profile' %}">
+                        {{ request.user.username }}
                     </a>
                 </li>
             </ul>

@@ -60,6 +60,10 @@ class StartOlympAdmin(admin.ModelAdmin):
     list_filter = ('event__title', )
     search_fields = ('user__last_name', 'user__username', 'user__first_name', 'event__title')
 
+class StudentAdmin(admin.ModelAdmin):
+    list_filter = ('class_number__name', 'paid')
+    search_fields = ('user__username', 'user__last_name', 'user__first_name', 'name_school')
+        
 admin.site.unregister(Group)
 admin.site.register(CategoryEvent, CategoryEventAdmin)
 admin.site.register(Question, QuestionAdmin)
@@ -69,3 +73,4 @@ admin.site.register(ClassNumber)
 admin.site.register(Event, EventAdmin)
 admin.site.register(UserInEvent, UserInEventAdmin)
 admin.site.register(StartOlymp, StartOlympAdmin)
+admin.site.register(Student, StudentAdmin)

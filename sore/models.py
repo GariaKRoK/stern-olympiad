@@ -8,7 +8,7 @@ from tinymce.models import HTMLField
 
 
 class ClassNumber(models.Model):
-    name = models.CharField('Номер класса', max_length=1)
+    name = models.CharField('Номер класса', max_length=2)
 
     def __str__(self):
         return self.name
@@ -66,11 +66,11 @@ class Event(models.Model):
         return '{}. Категория: {}. Дата создания: {}. Дата проведения: {}'.format(self.title, 
                     self.category, self.data_created, self.data_event)
     
-    def get_absolute_url(self):
-        return reverse('event_detail', kwargs={'category_slug': self.category.slug, 'slug': self.slug})
-
     def get_absolute_url_time_to_start(self):
         return reverse('time_to_start', kwargs={'category_slug': self.category.slug, 'slug': self.slug})
+
+    def get_absolute_url_final(self):
+        return reverse('final', kwargs={'category_slug': self.category.slug, 'slug': self.slug})
 
 
 class UserInEvent(models.Model):
@@ -99,7 +99,7 @@ class Question(models.Model):
         return self.question
 
     def get_absolute_url(self):
-        return reverse('answer', kwargs={'id': self.id})
+        return reverse('question', kwargs={'category_slug': event.category.slug, 'slug': event.slug,  'id_question': self.id})
         
     class Meta:
         verbose_name = 'Вопрос'

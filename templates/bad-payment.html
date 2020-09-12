@@ -12,7 +12,7 @@
                 <a id="popular-problems">Распостраненные проблемы</a>
             </div>
             <div class="button">
-                <a href="">назад</a>
+                <a href="{% url 'payment' %}">назад</a>
             </div>
             <img src="{% static 'images/penguin-3.svg' %}" alt="">
         </div>
@@ -33,8 +33,8 @@
                     </a>
                 </li>
                 <li class="header-item">
-                    <a class="header-link" href="">
-                        Юзернейм
+                    <a class="header-link" href="{% url 'profile' %}">
+                        {{ request.user.username }}
                     </a>
                 </li>
             </ul>

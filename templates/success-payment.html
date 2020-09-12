@@ -9,7 +9,7 @@
                 Успешная оплата
             </div>
             <div class="button">
-                <a href="">к олимпиаде</a>
+                <a href="{% url 'time_to_start' category_slug=category_slug  slug=event_slug %}">к олимпиаде</a>
             </div>
         </div>
     </div>
@@ -30,8 +30,8 @@
                     </a>
                 </li>
                 <li class="header-item">
-                    <a class="header-link" href="">
-                        Юзернейм
+                    <a class="header-link" href="{% url 'profile' %}">
+                        {{ request.user.username }}
                     </a>
                 </li>
             </ul>
@@ -42,17 +42,17 @@
 
         <div class="site-visit">
             <p>Посетите наш сайт :)</p>
-            <p><a class="site-visit-link" href="">www.schoolofsciences.ru</a></p>
+            <p><a class="site-visit-link" href="schoolofsciences.ru">www.schoolofsciences.ru</a></p>
         </div>
         <div class="social-links">
             <ul class="social-list">
                 <li class="social-item">
-                    <a class="social-link" href="#">
+                    <a class="social-link" href="vk.com/schoolofsciences">
                         <img class="social-image " src="{% static 'images/social-icon-vk-badpayment.svg' %}" alt="">
                     </a>
                 </li>
                 <li class="social-item">
-                    <a class="social-link" href="#">
+                    <a class="social-link" href="instagram.com/schoolofsciences/">
                         <img class="social-image " src="{% static 'images/social-icon-instagram-badpayment.svg' %}" alt="">
                     </a>
                 </li>

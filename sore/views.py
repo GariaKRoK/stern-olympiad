@@ -121,7 +121,7 @@ def payment(request):
             url = 'https://unitpay.ru/pay/{}?{}'
             return redirect(url.format(settings.MERCHANT_ID, params_string))
     else:
-        return redirect(reverse('time_to_start', kwargs={'category_slug':'olimpiada', 'slug': student.event.slug}))
+        return redirect(reverse('time_to_start', kwargs={'category_slug': student.event.category.slug, 'slug': student.event.slug}))
     return render(request, 'payment.html', locals())
 
 
@@ -159,29 +159,34 @@ def plus_balls(id, qs, user, txt):
         plus.save()
     return redirect('tests')
 
-
-def time_to_unix(date):
-    return datetime.datetime.strptime(date, '%Y-%b-%d %I:%M')
+def strftime(date):
+    return date.strftime("%Y-%m-%d %H:%M:%S")
 
 @login_required(login_url='/user/auth/')
 def time_to_start(request, category_slug, slug):
     time_start = Event.objects.get(slug=slug).data_event
-    time_start_str = time_start.strftime("%Y-%m-%d %H:%M:%S")
     if datetime.datetime.now().timestamp() < time_start.timestamp():
-        return render(request, 'timer.html', {'time_to_start': json.dumps(time_start_str)})
+        return render(request, 'timer.html', {'time_to_start': json.dumps(strftime(time_start))})
     else:
         return redirect(reverse('start_olympiad', kwargs={'category_slug': category_slug, 'slug': slug}))
 
 @login_required(login_url='/user/auth/')
 def final(request, category_slug, slug):
+    student = Student.objects.get(user=request.user)
+    if student.paid == False:
+        return redirect('payment')
     return render(request, 'final.html')
 
 @login_required(login_url='/user/auth/')
 def start_olympiad(request, category_slug, slug):
-    data = Event.objects.get(slug=slug)
-    id_question = Question.objects.filter(event__slug=slug).first()
-    if 'start-modal-start' in request.POST:
-        return redirect(reverse('question', kwargs={'category_slug': category_slug, 'slug': slug, 'id_question': id_question}))
+    student = Student.objects.get(user=request.user)
+    if student.paid == False:
+        return redirect('payment')
+    else:
+        data = Event.objects.get(slug=slug)
+        id_question = Question.objects.filter(event__slug=slug).first()
+        if 'start-modal-start' in request.POST:
+            return redirect(reverse('question', kwargs={'category_slug': category_slug, 'slug': slug, 'id_question': id_question}))
     return render(request, 'start-olymp.html', locals())
 
 def create_answer(student, txt, qs):
@@ -191,18 +196,24 @@ def create_answer(student, txt, qs):
     new.save()
 
 def time_olymp(user, event):
-    end_time = datetime.datetime.now() + datetime.timedelta(hours=1, minutes=30)
-    time_start_end_olymp = StartOlymp.objects.create(user=user,
-                            event=event, start_time=datetime.datetime.now(),
-                            end_time=end_time)
+    student = Student.objects.get(user=user)
+    if student.class_number.name in range(1, 3):
+        end_time = datetime.datetime.now() + datetime.timedelta(hours=1)
+    elif student.class_number.name in range(3, 9):
+        end_time = datetime.datetime.now() + datetime.timedelta(hours=1, minutes=30)
+    else:
+        end_time = datetime.datetime.now() + datetime.timedelta(hours=2)
+    if not StartOlymp.objects.filter(user__username=user.username).exists():
+        StartOlymp.objects.create(user=user, event=event,
+                    start_time=datetime.datetime.now(), end_time=end_time)
     return end_time
+#git add . && git commit -m 'add check if student paid, '
 @login_required(login_url='/user/auth/')
 def question(request, category_slug, slug, id_question):
     questions = Question.objects.filter(event__slug=slug)
     event = Event.objects.get(slug=slug)
-    start_end_olymp = time_olymp(user=request.user, event=event)
-    
-    return render(request, 'olymp.html', locals())
+    end_olymp_user = time_olymp(user=request.user, event=event)
+    return render(request, 'olymp.html', {'end_olymp_user': json.dumps(strftime(end_olymp_user)), "category_slug": category_slug, "slug": slug})
 
 def index(request):
     return render(request, 'index.html')
@@ -300,6 +311,7 @@ def payment_check(request):
     else:
         return json.dumps({'message': 'Метод не поддерживается'})
 
+@login_required(login_url='/user/auth/')
 def bad_payment(request):
     """
     :param request: standard django param
@@ -309,10 +321,6 @@ def bad_payment(request):
     """
     return render(request, 'bad-payment.html')
 
-@login_required(login_url='/user/auth/')
-def timeout(request):
-    #will be called if the time of your olympiad is over
-    return render(request, 'info/timeout.html')
 
 def documents(request):
     return render(request, 'documents.html')
@@ -344,5 +352,12 @@ def profile(request):
             student.save()
     return render(request, 'profile.html', locals())
 
+@login_required(login_url='/user/auth/')
 def succes_payment(request):
-    return render(request, 'success-payment.html')
+    student = Student.objects.get(user__username=request.user.username)
+    student_in_event = UserInEvent.objects.get(user=student)
+    student_in_event.paid = True
+    student_in_event.save()
+    event_slug = student_in_event.event.slug
+    category_slug = student_in_event.event.category.slug
+    return render(request, 'success-payment.html', locals())
