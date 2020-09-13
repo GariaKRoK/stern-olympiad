@@ -24,7 +24,6 @@ class Student(models.Model):
     class_number = models.ForeignKey(ClassNumber, on_delete=models.CASCADE, verbose_name='Номер класса')
     name_school = models.CharField('Название школы', max_length=50)
     count = models.IntegerField('Баллов за правильные ответы', default=0)
-    paid = models.BooleanField('Оплачена ли олимпида', default=False)
 
     def __str__(self):
         return self.user.username
@@ -71,7 +70,6 @@ class Event(models.Model):
 
     def get_absolute_url_final(self):
         return reverse('final', kwargs={'category_slug': self.category.slug, 'slug': self.slug})
-
 
 class UserInEvent(models.Model):
     user = models.ForeignKey(Student, on_delete=models.CASCADE, verbose_name='Пользователь')

@@ -124,31 +124,7 @@ def payment(request):
         return redirect(reverse('time_to_start', kwargs={'category_slug': student.event.category.slug, 'slug': student.event.slug}))
     return render(request, 'payment.html', locals())
 
-
-
-@login_required(login_url='/user/auth/')
-def tests(request):
-    """
-    tests view
-    
-    :param request: standard django param
-
-    **Code**
-        class_number - class number of user
-
-        link_timer - timer of user olympiad
-
-        question - all questions for user
-    """
-    user_in_event = UserInEvent.objects.get(user=request.user.username)
-    if request.user.student.paid == True:
-        class_number = request.user.student.class_number
-        link_timer = settings.DICT_LINK_TIMER[str(class_number)]
-        question = Question.objects.filter(class_number=request.user.student.class_number)
-        return render(request, 'core/tests.html', {'question': question, 'link_timer': link_timer})
-    else:
-        return redirect('payment')
-        
+   
 def plus_balls(id, qs, user, txt):
     if Answer.objects.filter(text=txt, question=qs).exists():
         plus = Student.objects.get(user=user)
@@ -172,9 +148,6 @@ def time_to_start(request, category_slug, slug):
 
 @login_required(login_url='/user/auth/')
 def final(request, category_slug, slug):
-    student = Student.objects.get(user=request.user)
-    if student.paid == False:
-        return redirect('payment')
     return render(request, 'final.html')
 
 @login_required(login_url='/user/auth/')
@@ -207,13 +180,13 @@ def time_olymp(user, event):
         StartOlymp.objects.create(user=user, event=event,
                     start_time=datetime.datetime.now(), end_time=end_time)
     return end_time
-#git add . && git commit -m 'add check if student paid, '
+
 @login_required(login_url='/user/auth/')
 def question(request, category_slug, slug, id_question):
     questions = Question.objects.filter(event__slug=slug)
     event = Event.objects.get(slug=slug)
     end_olymp_user = time_olymp(user=request.user, event=event)
-    return render(request, 'olymp.html', {'end_olymp_user': json.dumps(strftime(end_olymp_user)), "category_slug": category_slug, "slug": slug})
+    return render(request, 'olymp.html', {'end_olymp_user': json.dumps(strftime(end_olymp_user)), "category_slug": category_slug, "slug": slug, "event": event})
 
 def index(request):
     return render(request, 'index.html')
@@ -248,17 +221,6 @@ def answer(request, id):
     else:
         return redirect('payment')
 
-
-@login_required(login_url='/user/auth/')
-def olymp(request):
-    """
-        if user visit this url,
-        then he paid for olympiad :)
-    """
-    qs = Student.objects.get(user=request.user.student.user)
-    qs.paid = True
-    qs.save()
-    return render(request, 'core/olymp.html')
 
 def signout(request):
     logout(request)
