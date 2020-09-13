@@ -25,9 +25,12 @@
                             <img src="{% static 'images/payment-status-bg.svg' %}" alt="">
                         </div>
                         <div class="result">
-<!--                            <img src="assets/images/payment-status-bad.svg" alt="">-->
-                            <img src="{% static 'images/payment-status-suc.svg' %}" alt="">
-                        </div>
+                            {% if user_in_event.paid %}
+                                <img src="{% static 'images/payment-status-suc.svg' %}" alt="">
+                            {% else %}
+                            <img src="{% static 'images/payment-status-bad.svg' %}" alt="">
+                            {% endif %}
+                            </div>
                     </div>
                 </div>
                 <form action="{% url 'profile' %}" method="post">

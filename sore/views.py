@@ -5,6 +5,7 @@ from django.conf import settings
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.models import auth, User
 from django.contrib import messages
+from django.db.models import Q
 from django.http import HttpResponse, Http404, JsonResponse
 from .forms import *
 from .models import *
@@ -183,10 +184,18 @@ def time_olymp(user, event):
 
 @login_required(login_url='/user/auth/')
 def question(request, category_slug, slug, id_question):
-    questions = Question.objects.filter(event__slug=slug)
+    answered_questions = UserAnswer.objects.filter(student=request.user.student)
+    questions = Question.objects.filter(event__slug=slug)[0:4]
+    if questions.count() == answered_questions.count():
+       return redirect(reverse('final', kwargs={'category_slug': category_slug, 'slug': slug}))
+    list_name_answered_questions = []
+    if answered_questions:
+        for answered_question in answered_questions:
+            list_name_answered_questions.append(answered_question.question.question)
+        questions = questions.filter(~Q(question__in=list_name_answered_questions))[0:4]
     event = Event.objects.get(slug=slug)
-    end_olymp_user = time_olymp(user=request.user, event=event)
-    return render(request, 'olymp.html', {'end_olymp_user': json.dumps(strftime(end_olymp_user)), "category_slug": category_slug, "slug": slug, "event": event})
+    end_olymp_user = json.dumps(strftime(time_olymp(user=request.user, event=event)))
+    return render(request, 'olymp.html', locals())
 
 def index(request):
     return render(request, 'index.html')
@@ -290,6 +299,7 @@ def documents(request):
 @login_required(login_url='/user/auth/')
 def profile(request):
     student = Student.objects.get(user=request.user)
+    user_in_event = UserInEvent.objects.get(user=student)
     if request.method == "POST":
         if request.POST.get('class_number') and student.class_number != request.POST.get('class_number'):
             student.class_number = ClassNumber.objects.get(name=request.POST.get('class_number'))
@@ -320,6 +330,4 @@ def succes_payment(request):
     student_in_event = UserInEvent.objects.get(user=student)
     student_in_event.paid = True
     student_in_event.save()
-    event_slug = student_in_event.event.slug
-    category_slug = student_in_event.event.category.slug
     return render(request, 'success-payment.html', locals())

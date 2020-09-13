@@ -90,7 +90,7 @@ class Question(models.Model):
     event = models.ForeignKey(Event, on_delete=models.CASCADE, verbose_name='Олимпиада')
     question = models.CharField('Вопрос', max_length=1000)
     image = models.ImageField('Фото', upload_to='pictures/', blank=True, null=True)
-    count_answers = models.IntegerField('Количество ответов', default=1)
+    count_answers = models.IntegerField('Количество ответов', default=0)
     count_balls = models.IntegerField('Количество баллов за правильный ответ', default=1)
 
     def __str__(self):
@@ -119,6 +119,7 @@ class UserAnswer(models.Model):
     question = models.ForeignKey(Question, on_delete=models.CASCADE, verbose_name='Вопрос')
     answer = models.CharField(verbose_name='Ответ', max_length=1000)
     student = models.ForeignKey(Student, on_delete=models.CASCADE, verbose_name='Школьник')
+    correct = models.BooleanField('Верный ли ответ', default=False)
 
     class Meta:
         verbose_name = 'Ответ пользователя'
@@ -127,8 +128,8 @@ class UserAnswer(models.Model):
 class StartOlymp(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, verbose_name='Пользователь')
     event = models.ForeignKey(Event, on_delete=models.CASCADE, default=1, verbose_name='Мероприятие')
-    start_time = models.DateTimeField(verbose_name='Время ', null=True)
-    end_time = models.DateTimeField(verbose_name='Время ', null=True, blank=True)
+    start_time = models.DateTimeField(verbose_name='Время начала олимпиады пользователем', null=True)
+    end_time = models.DateTimeField(verbose_name='Время окончания олимпиады пользователем', null=True, blank=True)
 
     class Meta:
         verbose_name = 'Время начала и окончания пользователем олимпиады'

@@ -45,54 +45,20 @@
                     </script>
             </span></div>
             <div class="question-slider">
-                <div class="slide" data-index="0">
-                    <img src="{% static 'images/start-olymp-box.svg' %}" alt="">
+                {% for question in questions %}
+                <div class="slide" data-index="{{ question.id }}">
+                    <img src="{% static 'images/start-olymp-box.svg' %}" alt="">                    
                     <div class="text">
-                        asdad Lorem ipsum dolor sit amet, consectetur adipisicing elit. Beatae, blanditiis, dignissimos est et eveniet ex ipsa laboriosam obcaecati odit officiis pariatur quaerat sapiente tempore vel.
+                        {{ question.question }}
                     </div>
                     <div class="answer">
-                        <form action="" method="post">
+                        <form action="{% url 'question' category_slug=category_slug slug=slug id_question=id_question %}" method="post">
                             <p>Ответ:</p>
                             <input type="text">
                         </form>
                     </div>
                 </div>
-                <div class="slide" data-index="1">
-                    <img src="{% static 'images/start-olymp-box.svg' %}" alt="">
-                    <div class="text">
-                        asdad Lorem ipsum dolor sit amet, consectetur adipisicing elit. Beatae, blanditiis, dignissimos est et eveniet ex ipsa laboriosam obcaecati odit officiis pariatur quaerat sapiente tempore vel.
-                    </div>
-                    <div class="answer">
-                        <form action="" method="post">
-                            <p>Ответ:</p>
-                            <input type="text">
-                        </form>
-                    </div>
-                </div>
-                <div class="slide" data-index="2">
-                    <img src="{% static 'images/start-olymp-box.svg' %}" alt="">
-                    <div class="text">
-                        asdad Lorem ipsum dolor sit amet, consectetur adipisicing elit. Beatae, blanditiis, dignissimos est et eveniet ex ipsa laboriosam obcaecati odit officiis pariatur quaerat sapiente tempore vel.
-                    </div>
-                    <div class="answer">
-                        <form action="" method="post">
-                            <p>Ответ:</p>
-                            <input type="text">
-                        </form>
-                    </div>
-                </div>
-                <div class="slide" data-index="3">
-                    <img src="{% static 'images/start-olymp-box.svg' %}" alt="">
-                    <div class="text">
-                        asdad Lorem ipsum dolor sit amet, consectetur adipisicing elit. Beatae, blanditiis, dignissimos est et eveniet ex ipsa laboriosam obcaecati odit officiis pariatur quaerat sapiente tempore vel.
-                    </div>
-                    <div class="answer">
-                        <form action="" method="post">
-                            <p>Ответ:</p>
-                            <input type="text">
-                        </form>
-                    </div>
-                </div>
+                {% endfor %}
             </div>
             <div class="navigation">
                 <button class="olymp-slider-prev">
