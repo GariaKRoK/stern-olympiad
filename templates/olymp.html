@@ -109,7 +109,7 @@
                 </button>
             </div>
             <div class="button">
-                <a href="{% url 'final' category_slug=category_slug slug=slug %}">Закончить олимпиаду</a>
+                <a href="{{ event.get_absolute_url_final }}">Закончить олимпиаду</a>
             </div>
         </div>
     </div>

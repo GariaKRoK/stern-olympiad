@@ -5,9 +5,9 @@ from django.contrib.auth.models import Group
 class StudentAdmin(admin.ModelAdmin):
     list_display = ('user', 'telephone_number',
                     'class_number', 'name_school',
-                    'count', 'paid', )
-    list_filter = ('class_number', )
-    search_fields = ('user', 'name_school')
+                    'count', )
+    list_filter = ('class_number__name', )
+    search_fields = ('user__username', 'user__last_name', 'user__first_name', 'name_school')
 
 class UserAnswerAdmin(admin.ModelAdmin):
     list_display = ('student', 'answer', 'question', )
@@ -59,10 +59,6 @@ class UserInEventAdmin(admin.ModelAdmin):
 class StartOlympAdmin(admin.ModelAdmin):
     list_filter = ('event__title', )
     search_fields = ('user__last_name', 'user__username', 'user__first_name', 'event__title')
-
-class StudentAdmin(admin.ModelAdmin):
-    list_filter = ('class_number__name', 'paid')
-    search_fields = ('user__username', 'user__last_name', 'user__first_name', 'name_school')
         
 admin.site.unregister(Group)
 admin.site.register(CategoryEvent, CategoryEventAdmin)
