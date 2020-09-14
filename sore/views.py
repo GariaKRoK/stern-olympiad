@@ -163,11 +163,21 @@ def start_olympiad(request, category_slug, slug):
             return redirect(reverse('question', kwargs={'category_slug': category_slug, 'slug': slug, 'id_question': id_question}))
     return render(request, 'start-olymp.html', locals())
 
-def create_answer(student, txt, qs):
-    new = UserAnswer.objects.create(student=student, 
-                                    answer=txt,
-                                    question=qs)
-    new.save()
+def create_new_user_answer(event, question, answer, student):
+    exist_answer = Answer.objects.filter(event=event, 
+                             question=question, text=answer.lower()).exists()
+    if exist_answer:
+        UserAnswer.objects.create(question=question,
+                                    student=student, 
+                                    answer=answer,
+                                    correct=True)
+        student.count += question.count_balls
+        student.save()
+    else:
+        UserAnswer.objects.create(question=question,
+                                    student=student, 
+                                    answer=answer,
+                                    correct=False)
 
 def time_olymp(user, event):
     student = Student.objects.get(user=user)
@@ -184,6 +194,7 @@ def time_olymp(user, event):
 
 @login_required(login_url='/user/auth/')
 def question(request, category_slug, slug, id_question):
+    student = Student.objects.get(user=request.user)
     answered_questions = UserAnswer.objects.filter(student=request.user.student)
     questions = Question.objects.filter(event__slug=slug)[0:4]
     if questions.count() == answered_questions.count():
@@ -195,6 +206,13 @@ def question(request, category_slug, slug, id_question):
         questions = questions.filter(~Q(question__in=list_name_answered_questions))[0:4]
     event = Event.objects.get(slug=slug)
     end_olymp_user = json.dumps(strftime(time_olymp(user=request.user, event=event)))
+    if request.method == "POST":
+        if request.POST.get('answer'):
+            answer = request.POST.get('answer')
+            question = Question.objects.get(pk=id_question)
+            new_user_answer = create_new_user_answer(event, question, answer, student)
+        else:
+            nothing_answer = 'Вы ничего не ответили'
     return render(request, 'olymp.html', locals())
 
 def index(request):

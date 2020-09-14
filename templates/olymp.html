@@ -52,9 +52,11 @@
                         {{ question.question }}
                     </div>
                     <div class="answer">
-                        <form action="{% url 'question' category_slug=category_slug slug=slug id_question=id_question %}" method="post">
+                        <form action="{% url 'question' category_slug=category_slug slug=slug id_question=question.id %}" method="POST">
+                            {% csrf_token %}
                             <p>Ответ:</p>
-                            <input type="text">
+                            <input name="answer" type="text">
+                            <button type="submit">Ответить</button>
                         </form>
                     </div>
                 </div>
