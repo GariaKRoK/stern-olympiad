@@ -153,8 +153,8 @@ def final(request, category_slug, slug):
 
 @login_required(login_url='/user/auth/')
 def start_olympiad(request, category_slug, slug):
-    student = Student.objects.get(user=request.user)
-    if student.paid == False:
+    user_in_event = UserInEvent.objects.get(user__user__username=request.user.username)
+    if user_in_event.paid == False:
         return redirect('payment')
     else:
         data = Event.objects.get(slug=slug)
@@ -197,13 +197,18 @@ def question(request, category_slug, slug, id_question):
     student = Student.objects.get(user=request.user)
     answered_questions = UserAnswer.objects.filter(student=request.user.student)
     questions = Question.objects.filter(event__slug=slug)[0:4]
+    print('1 que')
+    print(questions)
     if questions.count() == answered_questions.count():
        return redirect(reverse('final', kwargs={'category_slug': category_slug, 'slug': slug}))
+    print(answered_questions.count())
     list_name_answered_questions = []
     if answered_questions:
         for answered_question in answered_questions:
             list_name_answered_questions.append(answered_question.question.question)
-        questions = questions.filter(~Q(question__in=list_name_answered_questions))[0:4]
+        print(list_name_answered_questions)
+        questions = Question.objects.filter(event__slug=slug).exclude(question__in=list_name_answered_questions)[0:4]
+    print(questions)
     event = Event.objects.get(slug=slug)
     end_olymp_user = json.dumps(strftime(time_olymp(user=request.user, event=event)))
     if request.method == "POST":
