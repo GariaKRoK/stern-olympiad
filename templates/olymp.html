@@ -51,10 +51,16 @@
                     <div class="text">
                         {{ question.question }}
                     </div>
+                    <!--место для фотки -->
+                    {% if question.image %}
+                    <img src="{{ question.image.url }}"/>
+                    {% endif %}
                     <div class="answer">
-                        <form action="{% url 'question' category_slug=category_slug slug=slug id_question=id_question %}" method="post">
+                        <form action="{% url 'question' category_slug=category_slug slug=slug id_question=question.id %}" method="POST">
+                            {% csrf_token %}
                             <p>Ответ:</p>
-                            <input type="text">
+                            <input name="answer" type="text">
+                            <button type="submit">Ответить</button>
                         </form>
                     </div>
                 </div>
@@ -65,10 +71,11 @@
                     <img src="{% static 'images/arrow.svg' %}" alt="">
                 </button>
                 <ul class="olymp-slider-menu">
-                    <li class="olymp-slider-item olymp-slider-item-active">1</li>
-                    <li class="olymp-slider-item">2</li>
-                    <li class="olymp-slider-item">3</li>
-                    <li class="olymp-slider-item">4</li>
+                    {% for question in questions %}
+                        <li class="olymp-slider-item {% if question.id == 1 %}olymp-slider-item-active {% endif %}">
+                            {{ question.id }}
+                        </li>
+                    {% endfor %}
                 </ul>
                 <button class="olymp-slider-next">
                     <img src="{% static 'images/arrow.svg' %}" alt="">
